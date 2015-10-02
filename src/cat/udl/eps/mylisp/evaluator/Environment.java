@@ -1,4 +1,4 @@
-package cat.udl.eps.mylisp.environment;
+package cat.udl.eps.mylisp.evaluator;
 
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
@@ -56,7 +56,7 @@ public class Environment {
             SExpression value = bindings.get(symbol.name);
             if (value != null) return value;
             if (next != null) return next.find(symbol);
-            return null;
+            throw new EvaluationError("Symbol not found");
         }
     }
 }
