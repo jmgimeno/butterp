@@ -1,8 +1,12 @@
-package cat.udl.eps.mylisp;
+package cat.udl.eps.mylisp.reader;
+
+import cat.udl.eps.mylisp.data.ConsCell;
+import cat.udl.eps.mylisp.data.LispInteger;
+import cat.udl.eps.mylisp.data.SExpression;
+import cat.udl.eps.mylisp.data.Symbol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

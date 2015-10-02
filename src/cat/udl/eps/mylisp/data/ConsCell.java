@@ -1,7 +1,6 @@
-package cat.udl.eps.mylisp;
+package cat.udl.eps.mylisp.data;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 /**

@@ -1,15 +1,18 @@
 package cat.udl.eps.mylisp;
 
-import org.junit.Before;
+import cat.udl.eps.mylisp.data.LispInteger;
+import cat.udl.eps.mylisp.data.SExpression;
+import cat.udl.eps.mylisp.data.Symbol;
+import cat.udl.eps.mylisp.reader.Reader;
 import org.junit.Test;
 
-import static cat.udl.eps.mylisp.ConsCell.list;
+import static cat.udl.eps.mylisp.data.ConsCell.list;
 import static junit.framework.Assert.assertEquals;
 
 public class ReaderTest {
 
-    public static final Symbol SYMBOL = new Symbol("SYMBOL");
-    public static final LispInteger INTEGER = new LispInteger(1234);
+    public static final SExpression SYMBOL = new Symbol("SYMBOL");
+    public static final SExpression INTEGER = new LispInteger(1234);
 
     private final Reader reader = new Reader();
 

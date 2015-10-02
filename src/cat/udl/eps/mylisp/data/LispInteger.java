@@ -1,4 +1,4 @@
-package cat.udl.eps.mylisp;
+package cat.udl.eps.mylisp.data;
 
 /**
  * Created by jmgimeno on 18/9/15.
