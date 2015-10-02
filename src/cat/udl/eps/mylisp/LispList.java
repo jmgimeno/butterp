@@ -6,12 +6,11 @@ import java.util.List;
 /**
  * Created by jmgimeno on 18/9/15.
  */
-public class LispList extends SExpression {
+public class LispList implements SExpression {
 
     List<SExpression> list;
 
     public LispList() {
-        super();
         list = new ArrayList<>();
     }
 

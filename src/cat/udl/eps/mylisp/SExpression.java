@@ -1,8 +1,7 @@
 package cat.udl.eps.mylisp;
 
 /**
- * Created by jmgimeno on 18/9/15.
+ * Created by jmgimeno on 2/10/15.
  */
-public class SExpression {
-
+public interface SExpression {
 }

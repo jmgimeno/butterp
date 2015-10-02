@@ -3,12 +3,11 @@ package cat.udl.eps.mylisp;
 /**
  * Created by jmgimeno on 18/9/15.
  */
-public class Symbol extends SExpression {
+public class Symbol implements SExpression {
 
     private final String symbol;
 
     public Symbol(String symbol) {
-        super();
         this.symbol = symbol;
     }
 

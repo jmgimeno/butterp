@@ -3,12 +3,11 @@ package cat.udl.eps.mylisp;
 /**
  * Created by jmgimeno on 18/9/15.
  */
-public class LispInteger extends SExpression {
+public class LispInteger implements SExpression {
 
     private final int value;
 
     public LispInteger(int value) {
-        super();
         this.value = value;
     }
 
