@@ -5,10 +5,10 @@ package cat.udl.eps.mylisp.data;
  */
 public class Symbol implements SExpression {
 
-    private final String symbol;
+    public final String name;
 
     public Symbol(String symbol) {
-        this.symbol = symbol;
+        this.name = symbol;
     }
 
     @Override
@@ -18,19 +18,19 @@ public class Symbol implements SExpression {
 
         Symbol symbol1 = (Symbol) o;
 
-        return symbol.equals(symbol1.symbol);
+        return name.equals(symbol1.name);
 
     }
 
     @Override
     public int hashCode() {
-        return symbol.hashCode();
+        return name.hashCode();
     }
 
     @Override
     public String toString() {
         return "Symbol{" +
-                "symbol='" + symbol + '\'' +
+                "name='" + name + '\'' +
                 '}';
     }
 }

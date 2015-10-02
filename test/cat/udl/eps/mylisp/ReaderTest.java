@@ -7,7 +7,7 @@ import cat.udl.eps.mylisp.reader.Reader;
 import org.junit.Test;
 
 import static cat.udl.eps.mylisp.data.ConsCell.list;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ReaderTest {
 
