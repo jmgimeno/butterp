@@ -8,10 +8,8 @@ import java.util.List;
  */
 public class ConsCell implements SExpression {
 
-    public static final SExpression NULL = new ConsCell(null, null);
-
-    private final SExpression car;
-    private final SExpression cdr;
+    public final SExpression car;
+    public final SExpression cdr;
 
     public ConsCell(SExpression car, SExpression cdr) {
         this.car = car;
@@ -27,19 +25,11 @@ public class ConsCell implements SExpression {
     }
 
     public static SExpression list(List<SExpression> elems) {
-        SExpression list = NULL;
+        SExpression list = Symbol.NIL;
         for (int i = elems.size(); i > 0; i--) {
             list = cons(elems.get(i - 1), list);
         }
         return list;
-    }
-
-    public SExpression car() {
-        return car;
-    }
-
-    public SExpression cdr() {
-        return cdr;
     }
 
     @Override
@@ -63,8 +53,6 @@ public class ConsCell implements SExpression {
 
     @Override
     public String toString() {
-        if (car == null && cdr == null)
-            return "NULL";
         return "ConsCell{" +
                 "car=" + car +
                 ", cdr=" + cdr +

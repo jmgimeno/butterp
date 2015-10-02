@@ -5,6 +5,9 @@ package cat.udl.eps.mylisp.data;
  */
 public class Symbol implements SExpression {
 
+    public static final Symbol TRUE = new Symbol("T");
+    public static final Symbol NIL = new Symbol("NIL");
+
     public final String name;
 
     public Symbol(String symbol) {

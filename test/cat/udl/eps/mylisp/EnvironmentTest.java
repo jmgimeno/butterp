@@ -3,7 +3,8 @@ package cat.udl.eps.mylisp;
 import cat.udl.eps.mylisp.data.LispInteger;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
-import cat.udl.eps.mylisp.environment.Environment;
+import cat.udl.eps.mylisp.evaluator.Environment;
+import cat.udl.eps.mylisp.evaluator.EvaluationError;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,9 +20,9 @@ public class EnvironmentTest {
 
     private final Environment environment = new Environment();
 
-    @Test
+    @Test(expected = EvaluationError.class)
     public void empty_environment() {
-        assertNull(environment.find(A));
+        environment.find(A);
     }
 
     @Test
