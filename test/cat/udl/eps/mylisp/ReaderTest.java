@@ -3,6 +3,7 @@ package cat.udl.eps.mylisp;
 import org.junit.Before;
 import org.junit.Test;
 
+import static cat.udl.eps.mylisp.ConsCell.list;
 import static junit.framework.Assert.assertEquals;
 
 public class ReaderTest {
@@ -39,24 +40,24 @@ public class ReaderTest {
     @Test
     public void read_simple_list() {
         SExpression sexpr = reader.read("   (1234 SYMBOL)");
-        assertEquals(new LispList(INTEGER, SYMBOL), sexpr);
+        assertEquals(list(INTEGER, SYMBOL), sexpr);
     }
 
     @Test
     public void read_multilevel_list_left() {
         SExpression sexpr = reader.read("((1234) SYMBOL   )");
-        assertEquals(new LispList(new LispList(INTEGER), SYMBOL), sexpr);
+        assertEquals(list(list(INTEGER), SYMBOL), sexpr);
     }
 
     @Test
     public void read_multilevel_list_right() {
         SExpression sexpr = reader.read("(  1234 (SYMBOL))");
-        assertEquals(new LispList(INTEGER, new LispList(SYMBOL)), sexpr);
+        assertEquals(list(INTEGER, list(SYMBOL)), sexpr);
     }
 
     @Test
     public void read_multilevel_list_both() {
         SExpression sexpr = reader.read("   (  (1234  ) (  SYMBOL)  )");
-        assertEquals(new LispList(new LispList(INTEGER), new LispList(SYMBOL)), sexpr);
+        assertEquals(list(list(INTEGER), list(SYMBOL)), sexpr);
     }
 }

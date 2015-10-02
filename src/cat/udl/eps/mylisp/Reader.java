@@ -31,12 +31,12 @@ public class Reader {
             throw new ReadingError("unexpected EOF while reading");
         String token = tokens.remove(0);
         if ( "(".equals(token) ) {
-            LispList l = new LispList();
+            List<SExpression> l = new ArrayList<>();
             while ( ! ")".equals(tokens.get(0)) ) {
-                l.append(parse(tokens));
+                l.add(parse(tokens));
             }
             tokens.remove(0); // pop off ')'
-            return l;
+            return ConsCell.list(l);
         } else if ( ")".equals(token) )
             throw new ReadingError("unexpected )");
         return makeAtom(token);
