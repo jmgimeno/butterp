@@ -16,22 +16,6 @@ public class ConsCell implements SExpression {
         this.cdr = cdr;
     }
 
-    public static SExpression cons(SExpression car, SExpression cdr) {
-        return new ConsCell(car, cdr);
-    }
-
-    public static SExpression list(SExpression... elems) {
-        return list(Arrays.asList(elems));
-    }
-
-    public static SExpression list(List<SExpression> elems) {
-        SExpression list = Symbol.NIL;
-        for (int i = elems.size(); i > 0; i--) {
-            list = cons(elems.get(i - 1), list);
-        }
-        return list;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

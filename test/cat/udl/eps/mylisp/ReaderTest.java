@@ -1,12 +1,13 @@
 package cat.udl.eps.mylisp;
 
 import cat.udl.eps.mylisp.data.LispInteger;
+import cat.udl.eps.mylisp.data.ListOps;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
 import cat.udl.eps.mylisp.reader.Reader;
 import org.junit.Test;
 
-import static cat.udl.eps.mylisp.data.ConsCell.list;
+import static cat.udl.eps.mylisp.data.ListOps.list;
 import static org.junit.Assert.assertEquals;
 
 public class ReaderTest {
@@ -43,24 +44,24 @@ public class ReaderTest {
     @Test
     public void read_simple_list() {
         SExpression sexpr = reader.read("   (1234 SYMBOL)");
-        assertEquals(list(INTEGER, SYMBOL), sexpr);
+        assertEquals(ListOps.list(INTEGER, SYMBOL), sexpr);
     }
 
     @Test
     public void read_multilevel_list_left() {
         SExpression sexpr = reader.read("((1234) SYMBOL   )");
-        assertEquals(list(list(INTEGER), SYMBOL), sexpr);
+        assertEquals(ListOps.list(ListOps.list(INTEGER), SYMBOL), sexpr);
     }
 
     @Test
     public void read_multilevel_list_right() {
         SExpression sexpr = reader.read("(  1234 (SYMBOL))");
-        assertEquals(list(INTEGER, list(SYMBOL)), sexpr);
+        assertEquals(ListOps.list(INTEGER, ListOps.list(SYMBOL)), sexpr);
     }
 
     @Test
     public void read_multilevel_list_both() {
         SExpression sexpr = reader.read("   (  (1234  ) (  SYMBOL)  )");
-        assertEquals(list(list(INTEGER), list(SYMBOL)), sexpr);
+        assertEquals(ListOps.list(ListOps.list(INTEGER), ListOps.list(SYMBOL)), sexpr);
     }
 }

@@ -1,9 +1,6 @@
 package cat.udl.eps.mylisp.reader;
 
-import cat.udl.eps.mylisp.data.ConsCell;
-import cat.udl.eps.mylisp.data.LispInteger;
-import cat.udl.eps.mylisp.data.SExpression;
-import cat.udl.eps.mylisp.data.Symbol;
+import cat.udl.eps.mylisp.data.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +37,7 @@ public class Reader {
                 l.add(parse(tokens));
             }
             tokens.remove(0); // pop off ')'
-            return ConsCell.list(l);
+            return ListOps.list(l);
         } else if ( ")".equals(token) )
             throw new ReadingError("unexpected )");
         return makeAtom(token);

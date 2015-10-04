@@ -128,4 +128,40 @@ public class EvaluatorTest {
         SExpression sexpr = reader.read("(CDR 1)");
         evaluator.eval(sexpr, env);
     }
+
+    @Test(expected = EvaluationError.class)
+    public void eval_cons_no_args() {
+        SExpression sexpr = reader.read("(CONS)");
+        evaluator.eval(sexpr, env);
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void eval_cons_one_args() {
+        SExpression sexpr = reader.read("(CONS 1)");
+        evaluator.eval(sexpr, env);
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void eval_cons_too_many_args() {
+        SExpression sexpr = reader.read("(CONS 1 2 3 4)");
+        evaluator.eval(sexpr, env);
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void eval_cons_second_num_args() {
+        SExpression sexpr = reader.read("(CONS NIL 2)");
+        evaluator.eval(sexpr, env);
+    }
+
+    @Test public void eval_cons_to_nil() {
+        SExpression sexpr = reader.read(("(CONS 1 NIL)"));
+        SExpression expected = reader.read("(1)");
+        assertEquals(expected, evaluator.eval(sexpr, env));
+    }
+
+    @Test public void eval_cons_list() {
+        SExpression sexpr = reader.read(("(CONS 1 (QUOTE (2 3 4)))"));
+        SExpression expected = reader.read("(1 2 3 4)");
+        assertEquals(expected, evaluator.eval(sexpr, env));
+    }
 }

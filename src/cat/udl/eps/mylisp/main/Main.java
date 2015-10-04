@@ -1,12 +1,11 @@
 package cat.udl.eps.mylisp.main;
 
-import cat.udl.eps.mylisp.data.ConsCell;
-import cat.udl.eps.mylisp.data.Primitive;
-import cat.udl.eps.mylisp.data.SExpression;
-import cat.udl.eps.mylisp.data.Symbol;
+import cat.udl.eps.mylisp.data.*;
 import cat.udl.eps.mylisp.evaluator.Environment;
 import cat.udl.eps.mylisp.evaluator.EvaluationError;
 import cat.udl.eps.mylisp.evaluator.Evaluator;
+
+import static cat.udl.eps.mylisp.data.ListOps.*;
 
 /**
  * Created by jmgimeno on 2/10/15.
@@ -30,8 +29,7 @@ public class Main {
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("QUOTE needs an argument.");
-                ConsCell largs = (ConsCell) args;
-                return largs.car;
+                return car(args);
             }
         });
         env.bind(new Symbol("CAR"), new Primitive() {
@@ -39,10 +37,12 @@ public class Main {
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CAR needs an argument.");
-                SExpression value = evaluator.eval(((ConsCell) args).car, env);
-                if (value instanceof ConsCell)
-                    return ((ConsCell)value).car;
-                throw new EvaluationError("CAR needs a list argument");
+                SExpression evargs = evalArgs(args, env);
+                try {
+                    return car(car(evargs));
+                } catch (ClassCastException ex) {
+                    throw new EvaluationError("CAR needs a list argument");
+                }
             }
         });
         env.bind(new Symbol("CDR"), new Primitive() {
@@ -50,17 +50,33 @@ public class Main {
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CDR needs an argument.");
-                SExpression value = evaluator.eval(((ConsCell) args).car, env);
-                if (value instanceof ConsCell)
-                    return ((ConsCell)value).cdr;
-                throw new EvaluationError("CDR needs a list argument");
+                SExpression evargs = evalArgs(args, env);
+                try {
+                    return cdr(car(evargs));
+                } catch (ClassCastException ex) {
+                    throw new EvaluationError("CDR needs a list argument");
+                }
+            }
+        });
+        env.bind(new Symbol("CONS"), new Primitive() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                if (length(args) != 2)
+                    throw new EvaluationError("CONS needs two arguments.");
+                SExpression evargs = evalArgs(args, env);
+                SExpression car = nth(evargs, 0);
+                SExpression cdr = nth(evargs, 1);
+                if (cdr == Symbol.NIL || cdr instanceof ConsCell)
+                    return cons(car, cdr);
+                else throw new EvaluationError("CONS second argument should be list.");
             }
         });
     }
 
-    public static int length(SExpression sexpr) {
-        if (sexpr == Symbol.NIL) return 0;
-        ConsCell cell = (ConsCell) sexpr;
-        return 1 + length(cell.cdr);
+    public static SExpression evalArgs(SExpression args, Environment env) {
+        if (args == Symbol.NIL) return Symbol.NIL;
+        else return cons(evaluator.eval(car(args), env),
+                         evalArgs(cdr(args), env));
     }
+
 }
