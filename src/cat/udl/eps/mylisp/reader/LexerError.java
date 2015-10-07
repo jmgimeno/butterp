@@ -1,4 +1,4 @@
-package cat.udl.eps.mylisp.altreader;
+package cat.udl.eps.mylisp.reader;
 
 /**
  * Created by jmgimeno on 7/10/15.

@@ -1,5 +1,6 @@
 package cat.udl.eps.mylisp;
 
+import cat.udl.eps.mylisp.reader.Parser;
 import cat.udl.eps.mylisp.data.LispInteger;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
@@ -7,7 +8,6 @@ import cat.udl.eps.mylisp.evaluator.Environment;
 import cat.udl.eps.mylisp.evaluator.EvaluationError;
 import cat.udl.eps.mylisp.evaluator.Evaluator;
 import cat.udl.eps.mylisp.main.Main;
-import cat.udl.eps.mylisp.reader.Reader;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +21,6 @@ public class EvaluatorTest {
 
     private final Environment env = Main.createInitialEnvironment();
     private final Evaluator evaluator = new Evaluator();
-    private final Reader reader = new Reader();
 
     @Test public void eval_number() {
         assertEquals(V1, evaluator.eval(V1, env));
@@ -38,130 +37,130 @@ public class EvaluatorTest {
     }
 
     @Test public void eval_true() {
-        SExpression sexpr = reader.read("T");
+        SExpression sexpr = Parser.parse("T");
         assertEquals(Symbol.TRUE, evaluator.eval(sexpr, env));
     }
 
     @Test public void eval_nil() {
-        SExpression sexpr = reader.read("NIL");
+        SExpression sexpr = Parser.parse("NIL");
         assertEquals(Symbol.NIL, evaluator.eval(sexpr, env));
     }
 
     @Test public void eval_quoted_symbol() {
-        SExpression sexpr = reader.read("(QUOTE A)");
+        SExpression sexpr = Parser.parse("(QUOTE A)");
         assertEquals(A, evaluator.eval(sexpr, env));
     }
 
     @Test public void eval_quoted_number() {
-        SExpression sexpr = reader.read("(QUOTE 1)");
-        SExpression expected = reader.read("1");
+        SExpression sexpr = Parser.parse("(QUOTE 1)");
+        SExpression expected = Parser.parse("1");
         assertEquals(expected, evaluator.eval(sexpr, env));
     }
 
     @Test public void eval_quoted_list() {
-        SExpression sexpr = reader.read("(QUOTE (1 2 3 4))");
-        SExpression expected = reader.read("(1 2 3 4)");
+        SExpression sexpr = Parser.parse("(QUOTE (1 2 3 4))");
+        SExpression expected = Parser.parse("(1 2 3 4)");
         assertEquals(expected, evaluator.eval(sexpr, env));
     }
 
     @Test public void eval_quoted_empty_list() {
-        SExpression sexpr = reader.read("(QUOTE ())");
+        SExpression sexpr = Parser.parse("(QUOTE ())");
         assertEquals(Symbol.NIL, evaluator.eval(sexpr, env));
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_quoted_no_arg() {
-        SExpression sexpr = reader.read("(QUOTE)");
+        SExpression sexpr = Parser.parse("(QUOTE)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_quoted_too_many_args() {
-        SExpression sexpr = reader.read("(QUOTE 1 2 3)");
+        SExpression sexpr = Parser.parse("(QUOTE 1 2 3)");
         evaluator.eval(sexpr, env);
     }
 
     @Test public void eval_car() {
-        SExpression sexpr = reader.read("(CAR (QUOTE (1 2 3)))");
-        SExpression expected = reader.read("1");
+        SExpression sexpr = Parser.parse("(CAR (QUOTE (1 2 3)))");
+        SExpression expected = Parser.parse("1");
         assertEquals(expected, evaluator.eval(sexpr, env));
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_car_no_args() {
-        SExpression sexpr = reader.read("(CAR)");
+        SExpression sexpr = Parser.parse("(CAR)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_car_too_many_args() {
-        SExpression sexpr = reader.read("(CAR 1 2 3)");
+        SExpression sexpr = Parser.parse("(CAR 1 2 3)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_car_number() {
-        SExpression sexpr = reader.read("(CAR 1)");
+        SExpression sexpr = Parser.parse("(CAR 1)");
         evaluator.eval(sexpr, env);
     }
 
     @Test public void eval_cdr() {
-        SExpression sexpr = reader.read("(CDR (QUOTE (1 2 3)))");
-        SExpression expected = reader.read("(2 3)");
+        SExpression sexpr = Parser.parse("(CDR (QUOTE (1 2 3)))");
+        SExpression expected = Parser.parse("(2 3)");
         assertEquals(expected, evaluator.eval(sexpr, env));
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cdr_no_args() {
-        SExpression sexpr = reader.read("(CDR)");
+        SExpression sexpr = Parser.parse("(CDR)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cdr_too_many_args() {
-        SExpression sexpr = reader.read("(CDR 1 2 3)");
+        SExpression sexpr = Parser.parse("(CDR 1 2 3)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cdr_number() {
-        SExpression sexpr = reader.read("(CDR 1)");
+        SExpression sexpr = Parser.parse("(CDR 1)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cons_no_args() {
-        SExpression sexpr = reader.read("(CONS)");
+        SExpression sexpr = Parser.parse("(CONS)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cons_one_args() {
-        SExpression sexpr = reader.read("(CONS 1)");
+        SExpression sexpr = Parser.parse("(CONS 1)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cons_too_many_args() {
-        SExpression sexpr = reader.read("(CONS 1 2 3 4)");
+        SExpression sexpr = Parser.parse("(CONS 1 2 3 4)");
         evaluator.eval(sexpr, env);
     }
 
     @Test(expected = EvaluationError.class)
     public void eval_cons_second_num_args() {
-        SExpression sexpr = reader.read("(CONS NIL 2)");
+        SExpression sexpr = Parser.parse("(CONS NIL 2)");
         evaluator.eval(sexpr, env);
     }
 
     @Test public void eval_cons_to_nil() {
-        SExpression sexpr = reader.read(("(CONS 1 NIL)"));
-        SExpression expected = reader.read("(1)");
+        SExpression sexpr = Parser.parse(("(CONS 1 NIL)"));
+        SExpression expected = Parser.parse("(1)");
         assertEquals(expected, evaluator.eval(sexpr, env));
     }
 
     @Test public void eval_cons_list() {
-        SExpression sexpr = reader.read(("(CONS 1 (QUOTE (2 3 4)))"));
-        SExpression expected = reader.read("(1 2 3 4)");
+        SExpression sexpr = Parser.parse(("(CONS 1 (QUOTE (2 3 4)))"));
+        SExpression expected = Parser.parse("(1 2 3 4)");
         assertEquals(expected, evaluator.eval(sexpr, env));
     }
 }

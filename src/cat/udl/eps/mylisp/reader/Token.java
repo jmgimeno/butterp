@@ -1,4 +1,4 @@
-package cat.udl.eps.mylisp.altreader;
+package cat.udl.eps.mylisp.reader;
 
 // Based on an example from Language Implementation Patterns by Terrence Parr
 

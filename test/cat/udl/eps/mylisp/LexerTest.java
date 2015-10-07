@@ -1,15 +1,15 @@
 package cat.udl.eps.mylisp;
 
-import cat.udl.eps.mylisp.altreader.Lexer;
-import cat.udl.eps.mylisp.altreader.LexerError;
-import cat.udl.eps.mylisp.altreader.Token;
+import cat.udl.eps.mylisp.reader.Lexer;
+import cat.udl.eps.mylisp.reader.LexerError;
+import cat.udl.eps.mylisp.reader.Token;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static cat.udl.eps.mylisp.altreader.Token.*;
+import static cat.udl.eps.mylisp.reader.Token.*;
 import static org.junit.Assert.assertEquals;
 
 public class LexerTest {
