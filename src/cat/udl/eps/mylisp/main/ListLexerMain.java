@@ -1,6 +1,7 @@
 package cat.udl.eps.mylisp.main;
 
 import cat.udl.eps.mylisp.altreader.Lexer;
+import cat.udl.eps.mylisp.altreader.LexerError;
 import cat.udl.eps.mylisp.altreader.Token;
 
 import java.util.Scanner;
@@ -23,7 +24,7 @@ public class ListLexerMain {
                     t = lexer.nextToken();
                 }
                 System.out.println(t); // EOF
-            } catch (Error ex) {
+            } catch (LexerError ex) {
                 System.out.println(ex.getMessage());
             }
 

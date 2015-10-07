@@ -2,8 +2,6 @@ package cat.udl.eps.mylisp.altreader;
 
 // Based on an example from Language Implementation Patterns by Terrence Parr
 
-import static cat.udl.eps.mylisp.altreader.Token.*;
-
 public class Lexer {
 
     public static final char EOF = (char) -1; // represent end of file char
@@ -12,10 +10,9 @@ public class Lexer {
     private int  p = 0;         // index into input of current character
     private char c;             // current character
 
-
     public Lexer(String input) {
-        this.input = input;
-        c = input.charAt(p); // prime lookahead
+        this.input = input.isEmpty() ? " " : input;
+        c = this.input.charAt(p); // prime lookahead
     }
 
     public void consume() {
@@ -53,19 +50,19 @@ public class Lexer {
                 WS();
             } else if (c == '(') {
                 consume();
-                return new Token(Type.LPAREN, "(");
+                return Token.LPAREN;
             } else if (c == ')') {
                 consume();
-                return new Token(Type.RPAREN, ")");
+                return Token.RPAREN;
             } else if (isLETTER()) {
                 return ATOM();
             } else if (isNUMBER()) {
                 return INTEGER();
             } else {
-                throw new Error("invalid character: " + c);
+                throw new LexerError("invalid character: " + c);
             }
         }
-        return new Token(Type.EOF, "<EOF>");
+        return Token.EOF;
     }
 
     private Token ATOM() {
@@ -77,9 +74,9 @@ public class Lexer {
         } while (isALPHA());
 
         if (c == EOF || c == ')' || isWS()) {
-            return new Token(Type.ATOM, buf.toString());
+            return Token.ATOM(buf.toString());
         } else {
-            throw new Error("invalid character: " + c);
+            throw new LexerError("invalid character: " + c);
         }
     }
 
@@ -91,7 +88,7 @@ public class Lexer {
             consume();
         }
         if (!isDIGIT()) {
-            throw new Error("invalid character: " + c);
+            throw new LexerError("invalid character: " + c);
         }
 
         do {
@@ -100,9 +97,9 @@ public class Lexer {
         } while (isDIGIT());
 
         if (c == EOF || c == ')' || isWS()) {
-            return new Token(Type.INTEGER, buf.toString());
+            return Token.INTEGER(buf.toString());
         } else {
-            throw new Error("invalid character: " + c);
+            throw new LexerError("invalid character: " + c);
         }
     }
 
