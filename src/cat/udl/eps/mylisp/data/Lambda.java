@@ -1,17 +1,13 @@
 package cat.udl.eps.mylisp.data;
 
-import cat.udl.eps.mylisp.evaluator.Environment;
-import cat.udl.eps.mylisp.evaluator.EvaluationError;
-import cat.udl.eps.mylisp.evaluator.Evaluator;
+import cat.udl.eps.mylisp.environment.Environment;
 
-import static cat.udl.eps.mylisp.data.ListOps.car;
-import static cat.udl.eps.mylisp.data.ListOps.cdr;
-import static cat.udl.eps.mylisp.data.ListOps.length;
+import static cat.udl.eps.mylisp.data.ListOps.*;
 
 /**
  * Created by jmgimeno on 9/10/15.
  */
-public class Lambda implements Applicable {
+public class Lambda extends Applicable {
 
     private final SExpression parameters;
     private final SExpression body;
@@ -27,7 +23,7 @@ public class Lambda implements Applicable {
     public SExpression apply(SExpression args, Environment callingEnv) {
         if (length(parameters) != length(args))
             throw new EvaluationError("Incorrect number of args in the call.");
-        SExpression evargs = Evaluator.mapEval(args, callingEnv);
+        SExpression evargs = mapEval(args, callingEnv);
         Environment evalEnv = makeEvalEnv(evargs);
         return evalBody(evalEnv);
     }
@@ -47,7 +43,7 @@ public class Lambda implements Applicable {
         SExpression body = this.body;
         SExpression last = Symbol.NIL;
         while (body != Symbol.NIL) {
-            last = Evaluator.eval(car(body), env);
+            last = car(body).eval(env);
             body = cdr(body);
         }
         return last;

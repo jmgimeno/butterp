@@ -1,6 +1,6 @@
 package cat.udl.eps.mylisp.reader;
 
-import cat.udl.eps.mylisp.data.LispInteger;
+import cat.udl.eps.mylisp.data.Integer;
 import cat.udl.eps.mylisp.data.ListOps;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
@@ -50,7 +50,7 @@ public class Parser {
 
     private SExpression integer() {
         if (lookahead.type == Token.Type.INTEGER) {
-            SExpression sexpr = new LispInteger(Integer.parseInt(lookahead.text));
+            SExpression sexpr = new Integer(java.lang.Integer.parseInt(lookahead.text));
             consume();
             return sexpr;
         } else {

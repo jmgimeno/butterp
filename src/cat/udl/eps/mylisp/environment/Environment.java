@@ -1,5 +1,6 @@
-package cat.udl.eps.mylisp.evaluator;
+package cat.udl.eps.mylisp.environment;
 
+import cat.udl.eps.mylisp.data.EvaluationError;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
 

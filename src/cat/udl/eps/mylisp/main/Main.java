@@ -1,9 +1,8 @@
 package cat.udl.eps.mylisp.main;
 
 import cat.udl.eps.mylisp.data.*;
-import cat.udl.eps.mylisp.evaluator.Environment;
-import cat.udl.eps.mylisp.evaluator.EvaluationError;
-import cat.udl.eps.mylisp.evaluator.Evaluator;
+import cat.udl.eps.mylisp.environment.Environment;
+import cat.udl.eps.mylisp.data.EvaluationError;
 
 import static cat.udl.eps.mylisp.data.ListOps.*;
 
@@ -36,7 +35,7 @@ public class Main {
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CAR needs an argument.");
-                SExpression evargs = Evaluator.mapEval(args, env);
+                SExpression evargs = mapEval(args, env);
                 try {
                     return car(car(evargs));
                 } catch (ClassCastException ex) {
@@ -50,7 +49,7 @@ public class Main {
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CDR needs an argument.");
-                SExpression evargs = Evaluator.mapEval(args, env);
+                SExpression evargs = mapEval(args, env);
                 try {
                     return cdr(car(evargs));
                 } catch (ClassCastException ex) {
@@ -64,7 +63,7 @@ public class Main {
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
                     throw new EvaluationError("CONS needs two arguments.");
-                SExpression evargs = Evaluator.mapEval(args, env);
+                SExpression evargs = mapEval(args, env);
                 SExpression car = nth(evargs, 0);
                 SExpression cdr = nth(evargs, 1);
                 if (cdr == Symbol.NIL || cdr instanceof ConsCell)

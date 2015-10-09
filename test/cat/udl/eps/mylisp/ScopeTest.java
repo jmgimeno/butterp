@@ -1,10 +1,10 @@
 package cat.udl.eps.mylisp;
 
-import cat.udl.eps.mylisp.data.LispInteger;
+import cat.udl.eps.mylisp.data.Integer;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
-import cat.udl.eps.mylisp.evaluator.Environment;
-import cat.udl.eps.mylisp.evaluator.EvaluationError;
+import cat.udl.eps.mylisp.environment.Environment;
+import cat.udl.eps.mylisp.data.EvaluationError;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,8 +15,8 @@ import static org.junit.Assert.*;
 public class ScopeTest {
 
     private static final Symbol A = new Symbol("A");
-    private static final SExpression V1 = new LispInteger(1);
-    private static final SExpression V2 = new LispInteger(2);
+    private static final SExpression V1 = new Integer(1);
+    private static final SExpression V2 = new Integer(2);
 
     private final Environment environment = new Environment();
 

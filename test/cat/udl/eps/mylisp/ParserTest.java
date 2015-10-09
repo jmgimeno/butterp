@@ -1,7 +1,7 @@
 package cat.udl.eps.mylisp;
 
 import cat.udl.eps.mylisp.reader.Parser;
-import cat.udl.eps.mylisp.data.LispInteger;
+import cat.udl.eps.mylisp.data.Integer;
 import cat.udl.eps.mylisp.data.ListOps;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class ParserTest {
 
     public static final SExpression SYMBOL = new Symbol("SYMBOL");
-    public static final SExpression INTEGER = new LispInteger(1234);
+    public static final SExpression INTEGER = new Integer(1234);
 
     @Test
     public void read_one_integer() {

@@ -1,5 +1,7 @@
 package cat.udl.eps.mylisp.data;
 
+import cat.udl.eps.mylisp.environment.Environment;
+
 /**
  * Created by jmgimeno on 18/9/15.
  */
@@ -12,6 +14,11 @@ public class Symbol implements SExpression {
 
     public Symbol(String symbol) {
         this.name = symbol;
+    }
+
+    @Override
+    public SExpression eval(Environment env) {
+        return env.find(this);
     }
 
     @Override

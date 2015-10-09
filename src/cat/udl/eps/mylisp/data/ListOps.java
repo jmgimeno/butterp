@@ -1,5 +1,7 @@
 package cat.udl.eps.mylisp.data;
 
+import cat.udl.eps.mylisp.environment.Environment;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,5 +56,11 @@ public class ListOps {
         } catch (ClassCastException ex) {
             return false;
         }
+    }
+
+    public static SExpression mapEval(SExpression args, Environment env) {
+        if (args == Symbol.NIL) return Symbol.NIL;
+        else return cons(car(args).eval(env),
+                         mapEval(cdr(args), env));
     }
 }

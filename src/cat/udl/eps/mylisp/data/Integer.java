@@ -1,14 +1,21 @@
 package cat.udl.eps.mylisp.data;
 
+import cat.udl.eps.mylisp.environment.Environment;
+
 /**
  * Created by jmgimeno on 18/9/15.
  */
-public class LispInteger implements SExpression {
+public class Integer implements SExpression {
 
     private final int value;
 
-    public LispInteger(int value) {
+    public Integer(int value) {
         this.value = value;
+    }
+
+    @Override
+    public SExpression eval(Environment env) {
+        return this;
     }
 
     @Override
@@ -16,7 +23,7 @@ public class LispInteger implements SExpression {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LispInteger that = (LispInteger) o;
+        Integer that = (Integer) o;
 
         return value == that.value;
 

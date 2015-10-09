@@ -1,10 +1,8 @@
 package cat.udl.eps.mylisp;
 
-import cat.udl.eps.mylisp.evaluator.Environment;
-import cat.udl.eps.mylisp.evaluator.EvaluationError;
-import cat.udl.eps.mylisp.evaluator.Evaluator;
+import cat.udl.eps.mylisp.environment.Environment;
+import cat.udl.eps.mylisp.data.EvaluationError;
 import cat.udl.eps.mylisp.reader.Parser;
-import cat.udl.eps.mylisp.data.LispInteger;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
 import cat.udl.eps.mylisp.main.Main;
@@ -21,7 +19,7 @@ public class EvaluatorTest {
 
     private void assertEvalTo(String input, String output) {
         SExpression sexpr = Parser.parse(input);
-        SExpression actual = Evaluator.eval(sexpr, env);
+        SExpression actual = sexpr.eval(env);
         SExpression expected = Parser.parse(output);
         assertEquals(expected, actual);
     }
@@ -37,12 +35,12 @@ public class EvaluatorTest {
 
     @Test public void true_() {
         SExpression sexpr = Parser.parse("T");
-        assertEquals(Symbol.TRUE, Evaluator.eval(sexpr, env));
+        assertEquals(Symbol.TRUE, sexpr.eval(env));
     }
 
     @Test public void nil() {
         SExpression sexpr = Parser.parse("NIL");
-        assertEquals(Symbol.NIL, Evaluator.eval(sexpr, env));
+        assertEquals(Symbol.NIL, sexpr.eval(env));
     }
 
     @Test
@@ -127,7 +125,7 @@ public class EvaluatorTest {
     @Test(expected = EvaluationError.class)
     public void cons_too_many_args() {
         SExpression sexpr = Parser.parse("(CONS 1 2 3 4)");
-        Evaluator.eval(sexpr, env);
+        sexpr.eval(env);
     }
 
     @Test(expected = EvaluationError.class)
@@ -138,7 +136,7 @@ public class EvaluatorTest {
     @Test public void cons_to_nil() {
         SExpression sexpr = Parser.parse(("(CONS 1 NIL)"));
         SExpression expected = Parser.parse("(1)");
-        assertEquals(expected, Evaluator.eval(sexpr, env));
+        assertEquals(expected, sexpr.eval(env));
     }
 
     @Test public void cons_list() {

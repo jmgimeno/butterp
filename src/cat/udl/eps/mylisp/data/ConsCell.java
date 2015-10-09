@@ -1,7 +1,6 @@
 package cat.udl.eps.mylisp.data;
 
-import java.util.Arrays;
-import java.util.List;
+import cat.udl.eps.mylisp.environment.Environment;
 
 /**
  * Created by jmgimeno on 2/10/15.
@@ -14,6 +13,15 @@ public class ConsCell implements SExpression {
     public ConsCell(SExpression car, SExpression cdr) {
         this.car = car;
         this.cdr = cdr;
+    }
+
+    @Override
+    public SExpression eval(Environment env) {
+        SExpression evfn = car.eval(env);
+        if (evfn instanceof Applicable) {
+            return ((Applicable) evfn).apply(cdr, env);
+        }
+        throw new EvaluationError("Cannot apply");
     }
 
     @Override
