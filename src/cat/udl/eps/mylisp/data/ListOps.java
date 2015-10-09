@@ -42,4 +42,17 @@ public class ListOps {
         else return nth(cdr(sexpr), n-1);
     }
 
+    public static boolean isListOfSymbols(SExpression params) {
+        try {
+            SExpression current = params;
+            while (current != Symbol.NIL) {
+                if (!(car(current) instanceof Symbol))
+                    return false;
+                current = cdr(current);
+            }
+            return true;
+        } catch (ClassCastException ex) {
+            return false;
+        }
+    }
 }

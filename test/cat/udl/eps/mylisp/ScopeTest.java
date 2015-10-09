@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Created by jmgimeno on 2/10/15.
  */
-public class EnvironmentTest {
+public class ScopeTest {
 
     private static final Symbol A = new Symbol("A");
     private static final SExpression V1 = new LispInteger(1);
@@ -41,17 +41,16 @@ public class EnvironmentTest {
     @Test
     public void one_environment_deep() {
         environment.bind(A, V1);
-        environment.pushScope();
-        assertEquals(V1, environment.find(A));
+        Environment newEnvironment = new Environment(environment);
+        assertEquals(V1, newEnvironment.find(A));
     }
 
     @Test
     public void push_change_pop_environment() {
         environment.bind(A, V1);
-        environment.pushScope();
-        environment.bind(A, V2);
-        assertEquals(V2, environment.find(A));
-        environment.popScope();
+        Environment newEnvironment = new Environment(environment);
+        newEnvironment.bind(A, V2);
+        assertEquals(V2, newEnvironment.find(A));
         assertEquals(V1, environment.find(A));
     }
 }

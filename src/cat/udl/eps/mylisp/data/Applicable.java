@@ -5,6 +5,6 @@ import cat.udl.eps.mylisp.evaluator.Environment;
 /**
  * Created by jmgimeno on 2/10/15.
  */
-public interface Primitive extends SExpression {
+public interface Applicable extends SExpression {
     SExpression apply(SExpression args, Environment env);
 }

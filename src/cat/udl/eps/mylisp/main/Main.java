@@ -12,19 +12,17 @@ import static cat.udl.eps.mylisp.data.ListOps.*;
  */
 public class Main {
 
-    private static final Evaluator evaluator = new Evaluator();
-
     public static Environment createInitialEnvironment() {
         Environment env = new Environment();
         loadPredefined(env);
-        env.pushScope();
         return env;
     }
 
     private static void loadPredefined(Environment env) {
         env.bind(Symbol.TRUE, Symbol.TRUE);
         env.bind(Symbol.NIL, Symbol.NIL);
-        env.bind(new Symbol("QUOTE"), new Primitive() {
+
+        env.bind(new Symbol("QUOTE"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -32,12 +30,13 @@ public class Main {
                 return car(args);
             }
         });
-        env.bind(new Symbol("CAR"), new Primitive() {
+
+        env.bind(new Symbol("CAR"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CAR needs an argument.");
-                SExpression evargs = evalArgs(args, env);
+                SExpression evargs = Evaluator.mapEval(args, env);
                 try {
                     return car(car(evargs));
                 } catch (ClassCastException ex) {
@@ -45,12 +44,13 @@ public class Main {
                 }
             }
         });
-        env.bind(new Symbol("CDR"), new Primitive() {
+
+        env.bind(new Symbol("CDR"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CDR needs an argument.");
-                SExpression evargs = evalArgs(args, env);
+                SExpression evargs = Evaluator.mapEval(args, env);
                 try {
                     return cdr(car(evargs));
                 } catch (ClassCastException ex) {
@@ -58,12 +58,13 @@ public class Main {
                 }
             }
         });
-        env.bind(new Symbol("CONS"), new Primitive() {
+
+        env.bind(new Symbol("CONS"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
                     throw new EvaluationError("CONS needs two arguments.");
-                SExpression evargs = evalArgs(args, env);
+                SExpression evargs = Evaluator.mapEval(args, env);
                 SExpression car = nth(evargs, 0);
                 SExpression cdr = nth(evargs, 1);
                 if (cdr == Symbol.NIL || cdr instanceof ConsCell)
@@ -71,12 +72,19 @@ public class Main {
                 else throw new EvaluationError("CONS second argument should be list.");
             }
         });
-    }
 
-    public static SExpression evalArgs(SExpression args, Environment env) {
-        if (args == Symbol.NIL) return Symbol.NIL;
-        else return cons(evaluator.eval(car(args), env),
-                         evalArgs(cdr(args), env));
+        env.bind(new Symbol("LAMBDA"), new Applicable() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                if (length(args) < 1)
+                    throw new EvaluationError("LAMBDA needs at least one arg");
+                SExpression params = car(args);
+                if (! isListOfSymbols(params))
+                    throw new EvaluationError("LAMBDA params should be a list of symbols");
+                SExpression body = cdr(args);
+                return new Lambda(params, body, env);
+            }
+        });
     }
 
 }
