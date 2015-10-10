@@ -23,6 +23,20 @@ public class Main {
         env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
         env.bindGlobal(Symbol.NIL, Symbol.NIL);
 
+        env.bindGlobal(new Symbol("DEFINE"), new Function() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                if (length(args) != 2)
+                    throw new EvaluationError("DEFINE should have two arguments");
+                SExpression symbol = nth(args, 0);
+                if (!(symbol instanceof Symbol))
+                    throw new EvaluationError("DEFINE's first argument shoul be a symbol");
+                SExpression value = nth(args, 1).eval(env);
+                env.bindGlobal((Symbol) symbol, value);
+                return Symbol.NIL;
+            }
+        });
+
         env.bindGlobal(new Symbol("QUOTE"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {

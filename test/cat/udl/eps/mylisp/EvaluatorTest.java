@@ -262,4 +262,31 @@ public class EvaluatorTest {
     public void add_not_a_number() {
         assertEvalFails("(ADD 1 T 2)");
     }
+
+    @Test(expected = EvaluationError.class)
+    public void define_no_args() {
+        assertEvalFails("(DEFINE)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void define_one_args() {
+        assertEvalFails("(DEFINE 1)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void define_two_many_args() {
+        assertEvalFails("(DEFINE 1 2 3 4)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void define_no_symbol() {
+        assertEvalFails("(DEFINE 1 2)");
+    }
+
+    @Test
+    public void define_symbol() {
+        assertEvalTo("(DEFINE N (ADD 1 2))", "NIL");
+        assertEvalTo("N", "3");
+    }
+
 }
