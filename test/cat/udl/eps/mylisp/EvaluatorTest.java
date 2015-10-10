@@ -217,4 +217,34 @@ public class EvaluatorTest {
     public void eq_complex_false() {
         assertEvalTo("(EQ (QUOTE (1 2 (3) 5 (6))) (QUOTE (1 2 (3 4) 5 (6))))", "NIL");
     }
+
+    @Test(expected = EvaluationError.class)
+    public void if_no_args() {
+        assertEvalFails("(IF)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void if_one_arg() {
+        assertEvalFails("(IF 1)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void if_two_args() {
+        assertEvalFails("(IF 1 2)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void if_too_many_args() {
+        assertEvalFails("(IF)");
+    }
+
+    @Test
+    public void if_then() {
+        assertEvalTo("(IF (EQ 1 1) (QUOTE 1) (QUOTE 2))", "1");
+    }
+
+    @Test
+    public void if_else() {
+        assertEvalTo("(IF (EQ 1 2) (QUOTE 1) (QUOTE 2))", "2");
+    }
 }

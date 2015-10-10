@@ -97,6 +97,18 @@ public class Main {
                 return arg1.equals(arg2) ? Symbol.TRUE : Symbol.NIL;
             }
         });
+
+        env.bindGlobal(new Symbol("IF"), new Function() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                if (length(args) != 3)
+                    throw new EvaluationError("IF needs condition, then and else parts.");
+                SExpression test = nth(args, 0);
+                SExpression then = nth(args, 1);
+                SExpression e1se = nth(args, 2);
+                return test.eval(env) != Symbol.NIL ? then.eval(env) : e1se.eval(env);
+            }
+        });
     }
 
 }
