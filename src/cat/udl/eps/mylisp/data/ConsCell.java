@@ -18,10 +18,12 @@ public class ConsCell implements SExpression {
     @Override
     public SExpression eval(Environment env) {
         SExpression evfn = car.eval(env);
-        if (evfn instanceof Applicable) {
-            return ((Applicable) evfn).apply(cdr, env);
-        }
-        throw new EvaluationError("Cannot apply");
+        return evfn.apply(cdr, env);
+    }
+
+    @Override
+    public SExpression apply(SExpression args, Environment env) {
+        throw new EvaluationError("Lists are not applicable.");
     }
 
     @Override

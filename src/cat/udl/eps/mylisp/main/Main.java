@@ -22,7 +22,12 @@ public class Main {
         env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
         env.bindGlobal(Symbol.NIL, Symbol.NIL);
 
-        env.bindGlobal(new Symbol("QUOTE"), new Applicable() {
+        env.bindGlobal(new Symbol("QUOTE"), new Function() {
+            @Override
+            public SExpression eval(Environment env) {
+                return this;
+            }
+
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -31,7 +36,12 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("CAR"), new Applicable() {
+        env.bindGlobal(new Symbol("CAR"), new Function() {
+            @Override
+            public SExpression eval(Environment env) {
+                return this;
+            }
+
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -45,7 +55,12 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("CDR"), new Applicable() {
+        env.bindGlobal(new Symbol("CDR"), new Function() {
+            @Override
+            public SExpression eval(Environment env) {
+                return this;
+            }
+
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -59,7 +74,12 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("CONS"), new Applicable() {
+        env.bindGlobal(new Symbol("CONS"), new Function() {
+            @Override
+            public SExpression eval(Environment env) {
+                return this;
+            }
+
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -73,7 +93,12 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("LAMBDA"), new Applicable() {
+        env.bindGlobal(new Symbol("LAMBDA"), new Function() {
+            @Override
+            public SExpression eval(Environment env) {
+                return this;
+            }
+
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) < 1)

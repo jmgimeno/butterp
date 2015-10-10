@@ -7,7 +7,7 @@ import static cat.udl.eps.mylisp.data.ListOps.*;
 /**
  * Created by jmgimeno on 9/10/15.
  */
-public class Lambda extends Applicable {
+public class Lambda extends Function {
 
     private final SExpression parameters;
     private final SExpression body;
