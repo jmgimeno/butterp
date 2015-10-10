@@ -304,4 +304,27 @@ public class EvaluatorTest {
         assertEvalFails("(MULT 1 T 2)");
     }
 
+    @Test
+    public void define_factorial() {
+        assertEvalTo("(DEFINE FACTORIAL (LAMBDA (N) (IF (EQ N 0) 1 (MULT N (FACTORIAL (ADD N -1))))))", "NIL");
+        assertEvalTo("(FACTORIAL 6)", "720");
+    }
+
+    @Test public void define_y_combinator() {
+        assertEvalTo("(DEFINE Y" +
+                "       (LAMBDA (X)" +
+                "         ((LAMBDA (PROC)" +
+                "            (X (LAMBDA (ARG) ((PROC PROC) ARG))))" +
+                "          (LAMBDA (PROC)" +
+                "             (X (LAMBDA (ARG) ((PROC PROC) ARG)))))))", "NIL");
+        assertEvalTo("(DEFINE F" +
+                "       (LAMBDA (FUNC)" +
+                "         (LAMBDA (N)" +
+                "           (IF (EQ N 0)" +
+                "              1" +
+                "              (MULT N (FUNC (ADD N -1)))))))", "NIL");
+        assertEvalTo("(DEFINE FACTORIAL (Y F))", "NIL");
+        assertEvalTo("(FACTORIAL 6)", "720");
+    }
+
 }

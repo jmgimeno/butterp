@@ -46,6 +46,6 @@ public class NestedMap implements Environment {
         SExpression value = bindings.get(symbol.name);
         if (value != null) return value;
         if (next != null) return next.find(symbol);
-        throw new EvaluationError("Symbol not found");
+        throw new EvaluationError("Symbol " + symbol + "not found");
     }
 }
