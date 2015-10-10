@@ -3,6 +3,7 @@ package cat.udl.eps.mylisp.main;
 import cat.udl.eps.mylisp.data.*;
 import cat.udl.eps.mylisp.environment.Environment;
 import cat.udl.eps.mylisp.data.EvaluationError;
+import cat.udl.eps.mylisp.environment.NestedMap;
 
 import static cat.udl.eps.mylisp.data.ListOps.*;
 
@@ -12,16 +13,16 @@ import static cat.udl.eps.mylisp.data.ListOps.*;
 public class Main {
 
     public static Environment createInitialEnvironment() {
-        Environment env = new Environment();
+        Environment env = new NestedMap();
         loadPredefined(env);
         return env;
     }
 
     private static void loadPredefined(Environment env) {
-        env.bind(Symbol.TRUE, Symbol.TRUE);
-        env.bind(Symbol.NIL, Symbol.NIL);
+        env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
+        env.bindGlobal(Symbol.NIL, Symbol.NIL);
 
-        env.bind(new Symbol("QUOTE"), new Applicable() {
+        env.bindGlobal(new Symbol("QUOTE"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -30,7 +31,7 @@ public class Main {
             }
         });
 
-        env.bind(new Symbol("CAR"), new Applicable() {
+        env.bindGlobal(new Symbol("CAR"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -44,7 +45,7 @@ public class Main {
             }
         });
 
-        env.bind(new Symbol("CDR"), new Applicable() {
+        env.bindGlobal(new Symbol("CDR"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -58,7 +59,7 @@ public class Main {
             }
         });
 
-        env.bind(new Symbol("CONS"), new Applicable() {
+        env.bindGlobal(new Symbol("CONS"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -72,7 +73,7 @@ public class Main {
             }
         });
 
-        env.bind(new Symbol("LAMBDA"), new Applicable() {
+        env.bindGlobal(new Symbol("LAMBDA"), new Applicable() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) < 1)

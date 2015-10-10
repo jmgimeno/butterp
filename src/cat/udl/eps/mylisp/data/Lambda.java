@@ -30,7 +30,7 @@ public class Lambda extends Applicable {
 
     private Environment makeEvalEnv(SExpression evargs) {
         SExpression params = parameters;
-        Environment evalEnv = new Environment(definitionEnv);
+        Environment evalEnv = definitionEnv.extend();
         while (params != Symbol.NIL) {
             evalEnv.bind((Symbol) car(params), car(evargs));
             params = cdr(params);
