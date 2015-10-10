@@ -289,4 +289,19 @@ public class EvaluatorTest {
         assertEvalTo("N", "3");
     }
 
+    @Test
+    public void mult_no_arg() {
+        assertEvalTo("(MULT)", "1");
+    }
+
+    @Test
+    public void mult_many_args() {
+        assertEvalTo("(MULT 1 2 3 4)", "24");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void mult_not_a_number() {
+        assertEvalFails("(MULT 1 T 2)");
+    }
+
 }

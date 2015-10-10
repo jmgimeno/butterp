@@ -139,6 +139,21 @@ public class Main {
                 return new Integer(accumulator);
             }
         });
+
+        env.bindGlobal(new Symbol("MULT"), new Function() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                int accumulator = 1;
+                SExpression evargs = mapEval(args, env);
+                if (!isListOf(evargs, Integer.class))
+                    throw new EvaluationError("MULT should get only integer arguments.");
+                while (evargs != Symbol.NIL) {
+                    accumulator *= ((Integer) car(evargs)).value;
+                    evargs = cdr(evargs);
+                }
+                return new Integer(accumulator);
+            }
+        });
     }
 
 }
