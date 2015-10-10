@@ -24,11 +24,6 @@ public class Main {
 
         env.bindGlobal(new Symbol("QUOTE"), new Function() {
             @Override
-            public SExpression eval(Environment env) {
-                return this;
-            }
-
-            @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("QUOTE needs an argument.");
@@ -37,11 +32,6 @@ public class Main {
         });
 
         env.bindGlobal(new Symbol("CAR"), new Function() {
-            @Override
-            public SExpression eval(Environment env) {
-                return this;
-            }
-
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -57,11 +47,6 @@ public class Main {
 
         env.bindGlobal(new Symbol("CDR"), new Function() {
             @Override
-            public SExpression eval(Environment env) {
-                return this;
-            }
-
-            @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("CDR needs an argument.");
@@ -75,11 +60,6 @@ public class Main {
         });
 
         env.bindGlobal(new Symbol("CONS"), new Function() {
-            @Override
-            public SExpression eval(Environment env) {
-                return this;
-            }
-
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -95,11 +75,6 @@ public class Main {
 
         env.bindGlobal(new Symbol("LAMBDA"), new Function() {
             @Override
-            public SExpression eval(Environment env) {
-                return this;
-            }
-
-            @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) < 1)
                     throw new EvaluationError("LAMBDA needs at least one arg");
@@ -108,6 +83,18 @@ public class Main {
                     throw new EvaluationError("LAMBDA params should be a list of symbols");
                 SExpression body = cdr(args);
                 return new Lambda(params, body, env);
+            }
+        });
+
+        env.bindGlobal(new Symbol("EQ"), new Function() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                if (length(args) != 2)
+                    throw new EvaluationError("EQ needs two arguments");
+                SExpression evargs = mapEval(args, env);
+                SExpression arg1 = nth(evargs, 0);
+                SExpression arg2 = nth(evargs, 1);
+                return arg1.equals(arg2) ? Symbol.TRUE : Symbol.NIL;
             }
         });
     }

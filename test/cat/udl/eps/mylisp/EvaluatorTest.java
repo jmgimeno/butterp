@@ -182,4 +182,39 @@ public class EvaluatorTest {
     public void lambda_func_param() {
         assertEvalTo("((LAMBDA (F A) (F A)) CAR (QUOTE (1 2)))", "1");
     }
+
+    @Test(expected = EvaluationError.class)
+    public void eq_no_args() {
+        assertEvalFails("(EQ)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void eq_one_arg() {
+        assertEvalFails("(EQ 1)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void eq_too_many_args() {
+        assertEvalFails("(EQ 1 2 3 4)");
+    }
+
+    @Test
+    public void eq_numbers_true() {
+        assertEvalTo("(EQ 1 1)", "T");
+    }
+
+    @Test
+    public void eq_numbers_nil() {
+        assertEvalTo("(EQ 1 2)", "NIL");
+    }
+
+    @Test
+    public void eq_complex_true() {
+        assertEvalTo("(EQ (QUOTE (1 2 (3 4) 5 (6))) (QUOTE (1 2 (3 4) 5 (6))))", "T");
+    }
+
+    @Test
+    public void eq_complex_false() {
+        assertEvalTo("(EQ (QUOTE (1 2 (3) 5 (6))) (QUOTE (1 2 (3 4) 5 (6))))", "NIL");
+    }
 }
