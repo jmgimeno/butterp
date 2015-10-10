@@ -7,7 +7,7 @@ import cat.udl.eps.mylisp.environment.Environment;
  */
 public class Integer implements SExpression {
 
-    private final int value;
+    public final int value;
 
     public Integer(int value) {
         this.value = value;

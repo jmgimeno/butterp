@@ -1,6 +1,7 @@
 package cat.udl.eps.mylisp.main;
 
 import cat.udl.eps.mylisp.data.*;
+import cat.udl.eps.mylisp.data.Integer;
 import cat.udl.eps.mylisp.environment.Environment;
 import cat.udl.eps.mylisp.data.EvaluationError;
 import cat.udl.eps.mylisp.environment.NestedMap;
@@ -79,7 +80,7 @@ public class Main {
                 if (length(args) < 1)
                     throw new EvaluationError("LAMBDA needs at least one arg");
                 SExpression params = car(args);
-                if (! isListOfSymbols(params))
+                if (!isListOf(params, Symbol.class))
                     throw new EvaluationError("LAMBDA params should be a list of symbols");
                 SExpression body = cdr(args);
                 return new Lambda(params, body, env);
@@ -107,6 +108,21 @@ public class Main {
                 SExpression then = nth(args, 1);
                 SExpression e1se = nth(args, 2);
                 return test.eval(env) != Symbol.NIL ? then.eval(env) : e1se.eval(env);
+            }
+        });
+
+        env.bindGlobal(new Symbol("ADD"), new Function() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                int accumulator = 0;
+                SExpression evargs = mapEval(args, env);
+                if (!isListOf(evargs, Integer.class))
+                    throw new EvaluationError("ADD should get only integer arguments.");
+                while (evargs != Symbol.NIL) {
+                    accumulator += ((Integer) car(evargs)).value;
+                    evargs = cdr(evargs);
+                }
+                return new Integer(accumulator);
             }
         });
     }

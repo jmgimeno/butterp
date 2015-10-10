@@ -247,4 +247,19 @@ public class EvaluatorTest {
     public void if_else() {
         assertEvalTo("(IF (EQ 1 2) (QUOTE 1) (QUOTE 2))", "2");
     }
+
+    @Test
+    public void add_no_arg() {
+        assertEvalTo("(ADD)", "0");
+    }
+
+    @Test
+    public void add_many_args() {
+        assertEvalTo("(ADD 1 2 3 4)", "10");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void add_not_a_number() {
+        assertEvalFails("(ADD 1 T 2)");
+    }
 }
