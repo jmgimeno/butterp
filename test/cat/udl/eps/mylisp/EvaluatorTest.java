@@ -34,12 +34,12 @@ public class EvaluatorTest {
     }
 
     @Test public void true_() {
-        SExpression sexpr = Parser.parse("T");
+        SExpression sexpr = Parser.parse("t");
         assertEquals(Symbol.TRUE, sexpr.eval(env));
     }
 
     @Test public void nil() {
-        SExpression sexpr = Parser.parse("NIL");
+        SExpression sexpr = Parser.parse("nil");
         assertEquals(Symbol.NIL, sexpr.eval(env));
     }
 
@@ -49,282 +49,287 @@ public class EvaluatorTest {
     }
 
     @Test public void quoted_symbol() {
-        assertEvalTo("(QUOTE A)", "A");
+        assertEvalTo("(quote A)", "A");
     }
 
     @Test public void quoted_number() {
-        assertEvalTo("(QUOTE 1)", "1");
+        assertEvalTo("(quote 1)", "1");
     }
 
     @Test public void quoted_list() {
-        assertEvalTo("(QUOTE (1 2 3 4))", "(1 2 3 4)");
+        assertEvalTo("(quote (1 2 3 4))", "(1 2 3 4)");
     }
 
     @Test public void quoted_empty_list() {
-        assertEvalTo("(QUOTE ())", "NIL");
+        assertEvalTo("(quote ())", "nil");
     }
 
     @Test(expected = EvaluationError.class)
     public void quoted_no_arg() {
-        assertEvalFails("(QUOTE)");
+        assertEvalFails("(quote)");
     }
 
     @Test(expected = EvaluationError.class)
     public void quoted_too_many_args() {
-        assertEvalFails("(QUOTE 1 2 3)");
+        assertEvalFails("(quote 1 2 3)");
     }
 
     @Test public void car() {
-        assertEvalTo("(CAR (QUOTE (1 2 3)))", "1");
+        assertEvalTo("(car (quote (1 2 3)))", "1");
     }
 
     @Test(expected = EvaluationError.class)
     public void car_no_args() {
-        assertEvalFails("(CAR)");
+        assertEvalFails("(car)");
     }
 
     @Test(expected = EvaluationError.class)
     public void car_too_many_args() {
-        assertEvalFails("(CAR 1 2 3)");
+        assertEvalFails("(car 1 2 3)");
     }
 
     @Test(expected = EvaluationError.class)
     public void car_number() {
-        assertEvalFails("(CAR 1)");
+        assertEvalFails("(car 1)");
     }
 
     @Test public void cdr() {
-        assertEvalTo("(CDR (QUOTE (1 2 3)))", "(2 3)");
+        assertEvalTo("(cdr (quote (1 2 3)))", "(2 3)");
     }
 
     @Test(expected = EvaluationError.class)
     public void cdr_no_args() {
-        assertEvalFails("(CDR)");
+        assertEvalFails("(cdr)");
     }
 
     @Test(expected = EvaluationError.class)
     public void cdr_too_many_args() {
-        assertEvalFails("(CDR 1 2 3)");
+        assertEvalFails("(cdr 1 2 3)");
     }
 
     @Test(expected = EvaluationError.class)
     public void cdr_number() {
-        assertEvalFails("(CDR 1)");
+        assertEvalFails("(cdr 1)");
     }
 
     @Test(expected = EvaluationError.class)
     public void cons_no_args() {
-        assertEvalFails("(CONS)");
+        assertEvalFails("(cons)");
     }
 
     @Test(expected = EvaluationError.class)
     public void cons_one_args() {
-        assertEvalFails("(CONS 1)");
+        assertEvalFails("(cons 1)");
     }
 
     @Test(expected = EvaluationError.class)
     public void cons_too_many_args() {
-        SExpression sexpr = Parser.parse("(CONS 1 2 3 4)");
+        SExpression sexpr = Parser.parse("(cons 1 2 3 4)");
         sexpr.eval(env);
     }
 
     @Test(expected = EvaluationError.class)
     public void cons_second_num_args() {
-        assertEvalFails("(CONS NIL 2)");
+        assertEvalFails("(cons nil 2)");
     }
 
     @Test public void cons_to_nil() {
-        SExpression sexpr = Parser.parse(("(CONS 1 NIL)"));
+        SExpression sexpr = Parser.parse(("(cons 1 nil)"));
         SExpression expected = Parser.parse("(1)");
         assertEquals(expected, sexpr.eval(env));
     }
 
     @Test public void cons_list() {
-        assertEvalTo("(CONS 1 (QUOTE (2 3 4)))", "(1 2 3 4)");
+        assertEvalTo("(cons 1 (quote (2 3 4)))", "(1 2 3 4)");
     }
 
     @Test(expected = EvaluationError.class)
     public void lambda_no_arg() {
-        assertEvalFails("(LAMBDA)");
+        assertEvalFails("(lambda)");
     }
 
     @Test(expected = EvaluationError.class)
     public void lambda_no_params_list() {
-        assertEvalFails("(LAMBDA 1)");
+        assertEvalFails("(lambda 1)");
     }
 
     @Test(expected = EvaluationError.class)
     public void lambda_params_list_no_symbol() {
-        assertEvalFails("(LAMBDA (A 1 B))");
+        assertEvalFails("(lambda (A 1 B))");
     }
 
     @Test
     public void lambda_constantly_one() {
-        assertEvalTo("((LAMBDA () 1))", "1");
+        assertEvalTo("((lambda () 1))", "1");
     }
 
     @Test
     public void lambda_constantly_one_more_expr_in_body() {
-        assertEvalTo("((LAMBDA () 0 1))", "1");
+        assertEvalTo("((lambda () 0 1))", "1");
     }
 
     @Test
     public void lambda_snoc() {
-        assertEvalTo("((LAMBDA (D A) (CONS A D)) NIL 1)", "(1)");
+        assertEvalTo("((lambda (D A) (cons A D)) nil 1)", "(1)");
     }
 
     @Test
     public void nested_lambdas() {
-        assertEvalTo("(((LAMBDA (A) (LAMBDA (D) (CONS A D))) 1) NIL)", "(1)");
+        assertEvalTo("(((lambda (A) (lambda (D) (cons A D))) 1) nil)", "(1)");
     }
 
     @Test
     public void lambda_func_param() {
-        assertEvalTo("((LAMBDA (F A) (F A)) CAR (QUOTE (1 2)))", "1");
+        assertEvalTo("((lambda (F A) (F A)) car (quote (1 2)))", "1");
     }
 
     @Test(expected = EvaluationError.class)
     public void eq_no_args() {
-        assertEvalFails("(EQ)");
+        assertEvalFails("(eq)");
     }
-
+    
     @Test(expected = EvaluationError.class)
     public void eq_one_arg() {
-        assertEvalFails("(EQ 1)");
+        assertEvalFails("(eq 1)");
     }
 
     @Test(expected = EvaluationError.class)
     public void eq_too_many_args() {
-        assertEvalFails("(EQ 1 2 3 4)");
+        assertEvalFails("(eq 1 2 3 4)");
     }
 
     @Test
     public void eq_numbers_true() {
-        assertEvalTo("(EQ 1 1)", "T");
+        assertEvalTo("(eq 1 1)", "t");
     }
 
     @Test
     public void eq_numbers_nil() {
-        assertEvalTo("(EQ 1 2)", "NIL");
+        assertEvalTo("(eq 1 2)", "nil");
     }
 
     @Test
     public void eq_complex_true() {
-        assertEvalTo("(EQ (QUOTE (1 2 (3 4) 5 (6))) (QUOTE (1 2 (3 4) 5 (6))))", "T");
+        assertEvalTo("(eq (quote (1 2 (3 4) 5 (6))) (quote (1 2 (3 4) 5 (6))))", "t");
     }
 
     @Test
     public void eq_complex_false() {
-        assertEvalTo("(EQ (QUOTE (1 2 (3) 5 (6))) (QUOTE (1 2 (3 4) 5 (6))))", "NIL");
+        assertEvalTo("(eq (quote (1 2 (3) 5 (6))) (quote (1 2 (3 4) 5 (6))))", "nil");
     }
 
     @Test(expected = EvaluationError.class)
     public void if_no_args() {
-        assertEvalFails("(IF)");
+        assertEvalFails("(if)");
     }
 
     @Test(expected = EvaluationError.class)
     public void if_one_arg() {
-        assertEvalFails("(IF 1)");
+        assertEvalFails("(if 1)");
     }
 
     @Test(expected = EvaluationError.class)
     public void if_two_args() {
-        assertEvalFails("(IF 1 2)");
+        assertEvalFails("(if 1 2)");
     }
 
     @Test(expected = EvaluationError.class)
     public void if_too_many_args() {
-        assertEvalFails("(IF)");
+        assertEvalFails("(if)");
     }
 
     @Test
     public void if_then() {
-        assertEvalTo("(IF (EQ 1 1) (QUOTE 1) (QUOTE 2))", "1");
+        assertEvalTo("(if (eq 1 1) (quote 1) (quote 2))", "1");
     }
 
     @Test
     public void if_else() {
-        assertEvalTo("(IF (EQ 1 2) (QUOTE 1) (QUOTE 2))", "2");
+        assertEvalTo("(if (eq 1 2) (quote 1) (quote 2))", "2");
     }
 
     @Test
     public void add_no_arg() {
-        assertEvalTo("(ADD)", "0");
+        assertEvalTo("(add)", "0");
     }
 
     @Test
     public void add_many_args() {
-        assertEvalTo("(ADD 1 2 3 4)", "10");
+        assertEvalTo("(add 1 2 3 4)", "10");
     }
 
     @Test(expected = EvaluationError.class)
     public void add_not_a_number() {
-        assertEvalFails("(ADD 1 T 2)");
+        assertEvalFails("(add 1 t 2)");
     }
 
     @Test(expected = EvaluationError.class)
     public void define_no_args() {
-        assertEvalFails("(DEFINE)");
+        assertEvalFails("(define)");
     }
 
     @Test(expected = EvaluationError.class)
     public void define_one_args() {
-        assertEvalFails("(DEFINE 1)");
+        assertEvalFails("(define 1)");
     }
 
     @Test(expected = EvaluationError.class)
     public void define_two_many_args() {
-        assertEvalFails("(DEFINE 1 2 3 4)");
+        assertEvalFails("(define 1 2 3 4)");
     }
 
     @Test(expected = EvaluationError.class)
     public void define_no_symbol() {
-        assertEvalFails("(DEFINE 1 2)");
+        assertEvalFails("(define 1 2)");
     }
 
     @Test
     public void define_symbol() {
-        assertEvalTo("(DEFINE N (ADD 1 2))", "NIL");
+        assertEvalTo("(define N (add 1 2))", "nil");
         assertEvalTo("N", "3");
     }
 
     @Test
     public void mult_no_arg() {
-        assertEvalTo("(MULT)", "1");
+        assertEvalTo("(mult)", "1");
     }
 
     @Test
     public void mult_many_args() {
-        assertEvalTo("(MULT 1 2 3 4)", "24");
+        assertEvalTo("(mult 1 2 3 4)", "24");
     }
 
     @Test(expected = EvaluationError.class)
     public void mult_not_a_number() {
-        assertEvalFails("(MULT 1 T 2)");
+        assertEvalFails("(mult 1 t 2)");
     }
 
     @Test
     public void define_factorial() {
-        assertEvalTo("(DEFINE FACTORIAL (LAMBDA (N) (IF (EQ N 0) 1 (MULT N (FACTORIAL (ADD N -1))))))", "NIL");
-        assertEvalTo("(FACTORIAL 6)", "720");
+        assertEvalTo("(define factorial " +
+                "       (lambda (n)" +
+                "         (if (eq n 0) " +
+                "             1 " +
+                "             (mult n " +
+                "                   (factorial (add n -1))))))", "nil");
+        assertEvalTo("(factorial 6)", "720");
     }
 
     @Test public void define_y_combinator() {
-        assertEvalTo("(DEFINE Y" +
-                "       (LAMBDA (X)" +
-                "         ((LAMBDA (PROC)" +
-                "            (X (LAMBDA (ARG) ((PROC PROC) ARG))))" +
-                "          (LAMBDA (PROC)" +
-                "             (X (LAMBDA (ARG) ((PROC PROC) ARG)))))))", "NIL");
-        assertEvalTo("(DEFINE F" +
-                "       (LAMBDA (FUNC)" +
-                "         (LAMBDA (N)" +
-                "           (IF (EQ N 0)" +
+        assertEvalTo("(define y" +
+                "       (lambda (x)" +
+                "         ((lambda (proc)" +
+                "            (x (lambda (arg) ((proc proc) arg))))" +
+                "          (lambda (proc)" +
+                "            (x (lambda (arg) ((proc proc) arg)))))))", "nil");
+        assertEvalTo("(define f" +
+                "       (lambda (func)" +
+                "         (lambda (n)" +
+                "           (if (eq n 0)" +
                 "              1" +
-                "              (MULT N (FUNC (ADD N -1)))))))", "NIL");
-        assertEvalTo("(DEFINE FACTORIAL (Y F))", "NIL");
-        assertEvalTo("(FACTORIAL 6)", "720");
+                "              (mult n (func (add n -1)))))))", "nil");
+        assertEvalTo("(define factorial (y f))", "nil");
+        assertEvalTo("(factorial 6)", "720");
     }
 
 }

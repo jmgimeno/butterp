@@ -7,8 +7,8 @@ import cat.udl.eps.mylisp.environment.Environment;
  */
 public class Symbol implements SExpression {
 
-    public static final Symbol TRUE = new Symbol("T");
-    public static final Symbol NIL = new Symbol("NIL");
+    public static final Symbol TRUE = new Symbol("t");
+    public static final Symbol NIL = new Symbol("nil");
 
     public final String name;
 

@@ -23,7 +23,7 @@ public class Main {
         env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
         env.bindGlobal(Symbol.NIL, Symbol.NIL);
 
-        env.bindGlobal(new Symbol("DEFINE"), new Function() {
+        env.bindGlobal(new Symbol("define"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -37,7 +37,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("QUOTE"), new Function() {
+        env.bindGlobal(new Symbol("quote"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -46,7 +46,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("CAR"), new Function() {
+        env.bindGlobal(new Symbol("car"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -60,7 +60,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("CDR"), new Function() {
+        env.bindGlobal(new Symbol("cdr"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -74,7 +74,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("CONS"), new Function() {
+        env.bindGlobal(new Symbol("cons"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -88,7 +88,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("LAMBDA"), new Function() {
+        env.bindGlobal(new Symbol("lambda"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) < 1)
@@ -101,7 +101,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("EQ"), new Function() {
+        env.bindGlobal(new Symbol("eq"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -113,7 +113,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("IF"), new Function() {
+        env.bindGlobal(new Symbol("if"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 3)
@@ -125,7 +125,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("ADD"), new Function() {
+        env.bindGlobal(new Symbol("add"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 int accumulator = 0;
@@ -140,7 +140,7 @@ public class Main {
             }
         });
 
-        env.bindGlobal(new Symbol("MULT"), new Function() {
+        env.bindGlobal(new Symbol("mult"), new Function() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 int accumulator = 1;
