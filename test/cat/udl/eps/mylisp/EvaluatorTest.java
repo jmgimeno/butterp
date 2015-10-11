@@ -332,4 +332,7 @@ public class EvaluatorTest {
         assertEvalTo("(factorial 6)", "720");
     }
 
+    @Test public void syntax_quote() {
+        assertEvalTo("(car '((1 2) cons))", "(1 2)");
+    }
 }

@@ -6,12 +6,13 @@ package cat.udl.eps.mylisp.reader;
 public class Token {
 
     public enum Type {
-        EOF, ATOM, INTEGER, LPAREN, RPAREN
+        EOF, ATOM, INTEGER, LPAREN, RPAREN, QUOTE
     }
 
     public static final Token EOF    = new Token(Type.EOF, null);
     public static final Token LPAREN = new Token(Type.LPAREN, null);
     public static final Token RPAREN = new Token(Type.RPAREN, null);
+    public static final Token QUOTE  = new Token(Type.QUOTE, null);
 
     public static Token INTEGER(String text) {
         return new Token(Type.INTEGER, text);

@@ -6,6 +6,7 @@ import cat.udl.eps.mylisp.data.ListOps;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
 
+import cat.udl.eps.mylisp.reader.ParserError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,6 +15,7 @@ public class ParserTest {
 
     public static final SExpression SYMBOL = new Symbol("SYMBOL");
     public static final SExpression INTEGER = new Integer(1234);
+    public static final SExpression QUOTE = new Symbol("quote");
 
     @Test
     public void read_one_integer() {
@@ -61,5 +63,17 @@ public class ParserTest {
     public void read_multilevel_list_both() {
         SExpression sexpr = Parser.parse("   (  (1234  ) (  SYMBOL)  )");
         assertEquals(ListOps.list(ListOps.list(INTEGER), ListOps.list(SYMBOL)), sexpr);
+    }
+
+    @Test
+    public void syntax_quote_number() {
+        SExpression sexpr = Parser.parse("'1234");
+        assertEquals(ListOps.list(QUOTE, INTEGER), sexpr);
+    }
+
+    @Test
+    public void syntax_quote_quote_number() {
+        SExpression sexpr = Parser.parse("''1234");
+        assertEquals(ListOps.list(QUOTE, ListOps.list(QUOTE, INTEGER)), sexpr);
     }
 }

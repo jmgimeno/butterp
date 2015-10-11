@@ -8,6 +8,9 @@ import cat.udl.eps.mylisp.data.Symbol;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cat.udl.eps.mylisp.data.ListOps.cons;
+import static cat.udl.eps.mylisp.data.ListOps.list;
+
 // Based on an example from Language Implementation Patterns by Terrence Parr
 
 public class Parser {
@@ -75,6 +78,9 @@ public class Parser {
             return integer();
         } else if (lookahead.type == Token.Type.LPAREN) {
             return list();
+        } else if (lookahead.type == Token.Type.QUOTE) {
+            consume();
+            return ListOps.list(new Symbol("quote"), sexpr());
         } else {
             throw new ParserError("expecting atom, integer or list, found " + lookahead);
         }

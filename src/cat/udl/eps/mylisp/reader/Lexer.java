@@ -54,6 +54,13 @@ public class Lexer {
             } else if (c == ')') {
                 consume();
                 return Token.RPAREN;
+            } else if (c =='\'') {
+                consume();
+                if (!isWS()) {
+                    return Token.QUOTE;
+                } else {
+                    throw new LexerError("No spaces allowed after quote character.");
+                }
             } else if (isLETTER()) {
                 return ATOM();
             } else if (isNUMBER()) {

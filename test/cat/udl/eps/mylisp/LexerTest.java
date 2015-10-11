@@ -41,6 +41,15 @@ public class LexerTest {
         assertTokens("12a");
     }
 
+    @Test public void simple_syntax_quote() {
+        assertTokens("'12", QUOTE, INTEGER("12"));
+    }
+
+    @Test(expected = LexerError.class)
+    public void syntax_quote_space_number() {
+        assertTokens("' 1234");
+    }
+
     private static List<Token> lexerize(String input) {
         Lexer lexer = new Lexer(input);
         List<Token> tokens = new ArrayList<>();
@@ -53,8 +62,8 @@ public class LexerTest {
     }
 
     private void assertTokens(String input, Token... tokens) {
-        List<Token> expected = Arrays.asList(tokens);
         List<Token> actual   = lexerize(input);
+        List<Token> expected = Arrays.asList(tokens);
         assertEquals(expected, actual);
     }
 }
