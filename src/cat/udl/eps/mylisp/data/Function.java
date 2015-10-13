@@ -32,4 +32,9 @@ public abstract class Function implements SExpression {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("<function-%x>", hashCode());
+    }
 }

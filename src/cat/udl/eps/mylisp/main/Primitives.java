@@ -3,23 +3,15 @@ package cat.udl.eps.mylisp.main;
 import cat.udl.eps.mylisp.data.*;
 import cat.udl.eps.mylisp.data.Integer;
 import cat.udl.eps.mylisp.environment.Environment;
-import cat.udl.eps.mylisp.data.EvaluationError;
-import cat.udl.eps.mylisp.environment.NestedMap;
 
 import static cat.udl.eps.mylisp.data.ListOps.*;
 
 /**
- * Created by jmgimeno on 2/10/15.
+ * Created by jmgimeno on 13/10/15.
  */
-public class Main {
+public class Primitives {
 
-    public static Environment createInitialEnvironment() {
-        Environment env = new NestedMap();
-        loadPredefined(env);
-        return env;
-    }
-
-    private static void loadPredefined(Environment env) {
+    public static void loadPredefined(Environment env) {
         env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
         env.bindGlobal(Symbol.NIL, Symbol.NIL);
 
@@ -155,5 +147,4 @@ public class Main {
             }
         });
     }
-
 }

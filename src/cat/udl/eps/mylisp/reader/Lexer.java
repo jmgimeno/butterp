@@ -20,6 +20,11 @@ public class Lexer {
         c = p < input.length() ? input.charAt(p) : EOF;
     }
 
+    public void match(char x) {
+        if (c == x) { consume(); }
+        else throw new LexerError("expecting " + x + " but got " + c);
+    }
+
     private boolean isALPHA() {
         return isDIGIT() || isLETTER();
     }

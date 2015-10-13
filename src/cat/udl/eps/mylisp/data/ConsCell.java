@@ -47,9 +47,15 @@ public class ConsCell implements SExpression {
 
     @Override
     public String toString() {
-        return "ConsCell{" +
-                "car=" + car +
-                ", cdr=" + cdr +
-                '}';
+        StringBuilder builder = new StringBuilder("(");
+        SExpression current = this;
+        boolean first = true;
+        while (current != Symbol.NIL) {
+            builder.append(String.format(first ? "%s" : " %s", ListOps.car(current)));
+            current = ListOps.cdr(current);
+            first = false;
+        }
+        builder.append(")");
+        return builder.toString();
     }
 }

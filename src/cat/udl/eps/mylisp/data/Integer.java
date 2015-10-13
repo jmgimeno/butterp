@@ -41,8 +41,6 @@ public class Integer implements SExpression {
 
     @Override
     public String toString() {
-        return "LispInteger{" +
-                "value=" + value +
-                '}';
+        return String.valueOf(value);
     }
 }

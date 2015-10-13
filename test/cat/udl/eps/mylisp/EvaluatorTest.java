@@ -5,7 +5,7 @@ import cat.udl.eps.mylisp.data.EvaluationError;
 import cat.udl.eps.mylisp.reader.Parser;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
-import cat.udl.eps.mylisp.main.Main;
+import cat.udl.eps.mylisp.main.Repl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class EvaluatorTest {
 
-    private final Environment env = Main.createInitialEnvironment();
+    private final Environment env = Repl.createInitialEnvironment();
 
     private void assertEvalTo(String input, String output) {
         SExpression sexpr = Parser.parse(input);

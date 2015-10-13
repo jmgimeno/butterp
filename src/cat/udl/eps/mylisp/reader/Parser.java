@@ -85,4 +85,8 @@ public class Parser {
             throw new ParserError("expecting atom, integer or list, found " + lookahead);
         }
     }
+
+    public boolean hasMoreInput() {
+        return lookahead.type != Token.Type.EOF;
+    }
 }
