@@ -15,7 +15,8 @@ public class Repl {
 
     public static Environment createInitialEnvironment() {
         Environment env = new NestedMap();
-        Primitives.loadPredefined(env);
+        Primitives.loadPrimitives(env);
+        Predefined.loadPredefined(env);
         return env;
     }
 
@@ -27,7 +28,7 @@ public class Repl {
         do {
             System.out.print(first ? "mylisp> " : "mylisp# ");
             line = scanner.nextLine();
-            builder.append(String.format("%s\n", line));
+            builder.append(String.format("%s%n", line));
             first = false;
         } while (!line.isEmpty());
         return builder.toString();
@@ -42,9 +43,9 @@ public class Repl {
                 Parser parser = new Parser(new StringLexer(input));
                 SExpression sexpr = parser.sexpr();
                 SExpression result = sexpr.eval(environment);
-                System.out.println(String.format(">>>>>>> %s\n", result));
+                System.out.printf(">>>>>>> %s%n", result);
             } catch (LexerError | ParserError | EvaluationError ex) {
-                System.out.println(String.format("~~~~~~~ %s\n", ex.getMessage()));
+                System.out.printf("~~~~~~~ %s%n", ex.getMessage());
             }
         }
     }

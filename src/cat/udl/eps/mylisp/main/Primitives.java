@@ -11,7 +11,7 @@ import static cat.udl.eps.mylisp.data.ListOps.*;
  */
 public class Primitives {
 
-    public static void loadPredefined(Environment env) {
+    public static void loadPrimitives(Environment env) {
         env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
         env.bindGlobal(Symbol.NIL, Symbol.NIL);
 

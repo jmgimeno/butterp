@@ -12,7 +12,7 @@ public abstract class Lexer {
 
     public void match(char x) {
         if (c == x) { consume(); }
-        else throw new LexerError("expecting " + x + " but got " + c);
+        else throw new LexerError(String.format("expecting '%s' but got '%s'%s", x, c, Character.getName(c)));
     }
 
     private boolean isALPHA() {
@@ -61,7 +61,7 @@ public abstract class Lexer {
             } else if (isNUMBER()) {
                 return INTEGER();
             } else {
-                throw new LexerError("invalid character: " + c);
+                throw new LexerError(invalidCharacter(c));
             }
         }
         return Token.EOF;
@@ -78,7 +78,7 @@ public abstract class Lexer {
         if (c == EOF || c == ')' || isWS()) {
             return Token.ATOM(buf.toString());
         } else {
-            throw new LexerError("invalid character: " + c);
+            throw new LexerError(invalidCharacter(c));
         }
     }
 
@@ -90,7 +90,7 @@ public abstract class Lexer {
             consume();
         }
         if (!isDIGIT()) {
-            throw new LexerError("invalid character: " + c);
+            throw new LexerError(invalidCharacter(c));
         }
 
         do {
@@ -101,7 +101,7 @@ public abstract class Lexer {
         if (c == EOF || c == ')' || isWS()) {
             return Token.INTEGER(buf.toString());
         } else {
-            throw new LexerError("invalid character: " + c);
+            throw new LexerError(invalidCharacter(c));
         }
     }
 
@@ -109,5 +109,9 @@ public abstract class Lexer {
         while (isWS()) {
             consume();
         }
+    }
+
+    private static String invalidCharacter(char c) {
+        return String.format("invalid character: '%s' (%s)", c, Character.getName(c));
     }
 }
