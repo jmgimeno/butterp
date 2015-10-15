@@ -2,6 +2,7 @@ package cat.udl.eps.mylisp;
 
 import cat.udl.eps.mylisp.reader.Lexer;
 import cat.udl.eps.mylisp.reader.LexerError;
+import cat.udl.eps.mylisp.reader.StringLexer;
 import cat.udl.eps.mylisp.reader.Token;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class LexerTest {
 
     @Test public void empty_string() {
-        Lexer lexer = new Lexer("");
+        Lexer lexer = new StringLexer("");
         assertEquals(EOF, lexer.nextToken());
     }
 
@@ -51,7 +52,7 @@ public class LexerTest {
     }
 
     private static List<Token> lexerize(String input) {
-        Lexer lexer = new Lexer(input);
+        Lexer lexer = new StringLexer(input);
         List<Token> tokens = new ArrayList<>();
         Token token = lexer.nextToken();
         while (token != EOF) {

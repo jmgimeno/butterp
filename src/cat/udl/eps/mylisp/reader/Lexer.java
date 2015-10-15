@@ -2,23 +2,13 @@ package cat.udl.eps.mylisp.reader;
 
 // Based on an example from Language Implementation Patterns by Terrence Parr
 
-public class Lexer {
+public abstract class Lexer {
 
     public static final char EOF = (char) -1; // represent end of file char
 
-    private final String input; // input string
-    private int  p = 0;         // index into input of current character
-    private char c;             // current character
+    protected char c;             // current character
 
-    public Lexer(String input) {
-        this.input = input.isEmpty() ? " " : input;
-        c = this.input.charAt(p); // prime lookahead
-    }
-
-    public void consume() {
-        p++;
-        c = p < input.length() ? input.charAt(p) : EOF;
-    }
+    public abstract void consume();
 
     public void match(char x) {
         if (c == x) { consume(); }

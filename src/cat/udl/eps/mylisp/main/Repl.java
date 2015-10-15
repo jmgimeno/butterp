@@ -3,10 +3,7 @@ package cat.udl.eps.mylisp.main;
 import cat.udl.eps.mylisp.data.*;
 import cat.udl.eps.mylisp.environment.Environment;
 import cat.udl.eps.mylisp.environment.NestedMap;
-import cat.udl.eps.mylisp.reader.Lexer;
-import cat.udl.eps.mylisp.reader.LexerError;
-import cat.udl.eps.mylisp.reader.Parser;
-import cat.udl.eps.mylisp.reader.ParserError;
+import cat.udl.eps.mylisp.reader.*;
 
 import java.io.BufferedInputStream;
 import java.util.Scanner;
@@ -42,7 +39,7 @@ public class Repl {
             String input = readInput();
             if (":exit".equals(input)) break;
             try {
-                Parser parser = new Parser(new Lexer(input));
+                Parser parser = new Parser(new StringLexer(input));
                 SExpression sexpr = parser.sexpr();
                 SExpression result = sexpr.eval(environment);
                 System.out.println(String.format(">>>>>>> %s\n", result));

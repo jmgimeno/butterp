@@ -24,7 +24,7 @@ public class Parser {
     }
 
     public static SExpression parse(String input) {
-        Lexer lexer = new Lexer(input);
+        Lexer lexer = new StringLexer(input);
         Parser parser = new Parser(lexer);
         return parser.sexpr();
     }
