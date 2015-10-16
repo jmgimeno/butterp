@@ -25,13 +25,25 @@ public class Repl {
         StringBuilder builder = new StringBuilder();
         String line;
         boolean first = true;
+        int parenthesesBalance = 0;
         do {
             System.out.print(first ? "mylisp> " : "mylisp# ");
             line = scanner.nextLine();
             builder.append(String.format("%s%n", line));
             first = false;
-        } while (!line.isEmpty());
+            parenthesesBalance += parenthesesBalance(line);
+        } while (!line.isEmpty() && parenthesesBalance != 0);
         return builder.toString();
+    }
+
+    private static int parenthesesBalance(String line) {
+        int balance = 0;
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '(') balance += 1;
+            else if (c == ')') balance -= 1;
+        }
+        return balance;
     }
 
     public static void main(String[] args) {
