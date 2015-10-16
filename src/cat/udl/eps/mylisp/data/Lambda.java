@@ -20,10 +20,9 @@ public class Lambda extends Function {
     }
 
     @Override
-    public SExpression apply(SExpression args, Environment callingEnv) {
-        if (length(parameters) != length(args))
+    public SExpression apply(SExpression evargs, Environment callingEnv) {
+        if (length(parameters) != length(evargs))
             throw new EvaluationError("Incorrect number of args in the call.");
-        SExpression evargs = mapEval(args, callingEnv);
         Environment evalEnv = makeEvalEnv(evargs);
         return evalBody(evalEnv);
     }

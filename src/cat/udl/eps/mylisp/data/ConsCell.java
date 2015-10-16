@@ -2,6 +2,8 @@ package cat.udl.eps.mylisp.data;
 
 import cat.udl.eps.mylisp.environment.Environment;
 
+import static cat.udl.eps.mylisp.data.ListOps.mapEval;
+
 /**
  * Created by jmgimeno on 2/10/15.
  */
@@ -18,7 +20,11 @@ public class ConsCell implements SExpression {
     @Override
     public SExpression eval(Environment env) {
         SExpression evfn = car.eval(env);
-        return evfn.apply(cdr, env);
+        if (evfn instanceof Special) {
+            return evfn.apply(cdr, env);
+        } else {
+            return evfn.apply(mapEval(cdr, env), env);
+        }
     }
 
     @Override

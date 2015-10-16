@@ -15,7 +15,7 @@ public class Primitives {
         env.bindGlobal(Symbol.TRUE, Symbol.TRUE);
         env.bindGlobal(Symbol.NIL, Symbol.NIL);
 
-        env.bindGlobal(new Symbol("define"), new Function() {
+        env.bindGlobal(new Symbol("define"), new Special() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 2)
@@ -29,7 +29,7 @@ public class Primitives {
             }
         });
 
-        env.bindGlobal(new Symbol("quote"), new Function() {
+        env.bindGlobal(new Symbol("quote"), new Special() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 1)
@@ -40,10 +40,9 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("car"), new Function() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
-                if (length(args) != 1)
+            public SExpression apply(SExpression evargs, Environment env) {
+                if (length(evargs) != 1)
                     throw new EvaluationError("CAR needs an argument.");
-                SExpression evargs = mapEval(args, env);
                 try {
                     return car(car(evargs));
                 } catch (ClassCastException ex) {
@@ -54,10 +53,9 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("cdr"), new Function() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
-                if (length(args) != 1)
+            public SExpression apply(SExpression evargs, Environment env) {
+                if (length(evargs) != 1)
                     throw new EvaluationError("CDR needs an argument.");
-                SExpression evargs = mapEval(args, env);
                 try {
                     return cdr(car(evargs));
                 } catch (ClassCastException ex) {
@@ -68,10 +66,9 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("cons"), new Function() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
-                if (length(args) != 2)
+            public SExpression apply(SExpression evargs, Environment env) {
+                if (length(evargs) != 2)
                     throw new EvaluationError("CONS needs two arguments.");
-                SExpression evargs = mapEval(args, env);
                 SExpression car = nth(evargs, 0);
                 SExpression cdr = nth(evargs, 1);
                 if (cdr == Symbol.NIL || cdr instanceof ConsCell)
@@ -80,7 +77,7 @@ public class Primitives {
             }
         });
 
-        env.bindGlobal(new Symbol("lambda"), new Function() {
+        env.bindGlobal(new Symbol("lambda"), new Special() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) < 1)
@@ -95,17 +92,16 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("eq"), new Function() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
-                if (length(args) != 2)
+            public SExpression apply(SExpression evargs, Environment env) {
+                if (length(evargs) != 2)
                     throw new EvaluationError("EQ needs two arguments");
-                SExpression evargs = mapEval(args, env);
                 SExpression arg1 = nth(evargs, 0);
                 SExpression arg2 = nth(evargs, 1);
                 return arg1.equals(arg2) ? Symbol.TRUE : Symbol.NIL;
             }
         });
 
-        env.bindGlobal(new Symbol("if"), new Function() {
+        env.bindGlobal(new Symbol("if"), new Special() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) != 3)
@@ -119,11 +115,10 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("add"), new Function() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
-                int accumulator = 0;
-                SExpression evargs = mapEval(args, env);
+            public SExpression apply(SExpression evargs, Environment env) {
                 if (!isListOf(evargs, Integer.class))
                     throw new EvaluationError("ADD should get only integer arguments.");
+                int accumulator = 0;
                 while (evargs != Symbol.NIL) {
                     accumulator += ((Integer) car(evargs)).value;
                     evargs = cdr(evargs);
@@ -134,16 +129,34 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("mult"), new Function() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
-                int accumulator = 1;
-                SExpression evargs = mapEval(args, env);
+            public SExpression apply(SExpression evargs, Environment env) {
                 if (!isListOf(evargs, Integer.class))
                     throw new EvaluationError("MULT should get only integer arguments.");
+                int accumulator = 1;
                 while (evargs != Symbol.NIL) {
                     accumulator *= ((Integer) car(evargs)).value;
                     evargs = cdr(evargs);
                 }
                 return new Integer(accumulator);
+            }
+        });
+
+        env.bindGlobal(new Symbol("eval"), new Function() {
+            @Override
+            public SExpression apply(SExpression evargs, Environment env) {
+                if (length(evargs) != 1)
+                    throw new EvaluationError("EVAL should get only one argument");
+                return car(evargs).eval(env);
+            }
+        });
+
+        env.bindGlobal(new Symbol("apply"), new Function() {
+            @Override
+            public SExpression apply(SExpression evargs, Environment env) {
+                if (length(evargs) != 2) {
+                    throw new EvaluationError("APPLY should get two arguments");
+                }
+                return car(evargs).apply(car(cdr(evargs)), env);
             }
         });
     }

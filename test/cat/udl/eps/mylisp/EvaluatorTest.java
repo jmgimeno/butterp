@@ -335,4 +335,37 @@ public class EvaluatorTest {
     @Test public void syntax_quote() {
         assertEvalTo("(car '((1 2) cons))", "(1 2)");
     }
+
+    @Test(expected = EvaluationError.class)
+    public void eval_no_arg() {
+        assertEvalFails("(eval)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void eval_too_many_args() {
+        assertEvalFails("(eval '(1 2) 3)");
+    }
+
+    @Test public void eval_ok() {
+        assertEvalTo("(eval '(add 1 2))", "3");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void apply_no_arg() {
+        assertEvalFails("(apply)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void apply_one_arg() {
+        assertEvalFails("(apply car)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void apply_too_many_arg() {
+        assertEvalFails("(apply car '(1 2) '(3 4))");
+    }
+
+    @Test public void apply_ok() {
+        assertEvalTo("(apply add '(1 2 3 4))", "10");
+    }
 }

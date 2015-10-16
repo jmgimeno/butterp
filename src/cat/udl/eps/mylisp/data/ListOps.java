@@ -44,4 +44,22 @@ public class ListOps {
         else return nth(cdr(sexpr), n-1);
     }
 
+    public static boolean isListOf(SExpression params, Class<?> klass) {
+        try {
+            SExpression current = params;
+            while (current != Symbol.NIL) {
+                if (!klass.isInstance(car(current)))
+                    return false;
+                current = cdr(current);
+            }
+            return true;
+        } catch (ClassCastException ex) {
+            return false;
+        }
+    }
+
+    public static SExpression mapEval(SExpression args, Environment env) {
+        if (args == Symbol.NIL) return Symbol.NIL;
+        else return cons(car(args).eval(env), mapEval(cdr(args), env));
+    }
 }
