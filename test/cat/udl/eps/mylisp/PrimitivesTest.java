@@ -2,20 +2,20 @@ package cat.udl.eps.mylisp;
 
 import cat.udl.eps.mylisp.environment.Environment;
 import cat.udl.eps.mylisp.data.EvaluationError;
+import cat.udl.eps.mylisp.environment.NestedMap;
+import cat.udl.eps.mylisp.main.Primitives;
 import cat.udl.eps.mylisp.reader.Parser;
 import cat.udl.eps.mylisp.data.SExpression;
 import cat.udl.eps.mylisp.data.Symbol;
 import cat.udl.eps.mylisp.main.Repl;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by jmgimeno on 2/10/15.
- */
-public class EvaluatorTest {
+public class PrimitivesTest {
 
-    private final Environment env = Repl.createInitialEnvironment();
+    private final Environment env = new NestedMap();
 
     private void assertEvalTo(String input, String output) {
         SExpression sexpr = Parser.parse(input);
@@ -26,6 +26,11 @@ public class EvaluatorTest {
 
     private void assertEvalFails(String input) {
         assertEvalTo(input, null);
+    }
+
+    @Before
+    public void loadPrimitives() {
+        Primitives.loadPrimitives(env);
     }
 
     @Test(expected = EvaluationError.class)
@@ -375,5 +380,9 @@ public class EvaluatorTest {
 
     @Test public void list_some_args() {
         assertEvalTo("(list 1 (add 2 3) '(1 2))", "(1 5 (1 2))");
+    }
+
+    @Test public void macro_ok() {
+        assertEvalTo("((macro (expr val) (list 'if expr val nil)) (eq 0 1) (cons))", "nil");
     }
 }

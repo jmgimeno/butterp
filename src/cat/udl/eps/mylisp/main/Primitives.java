@@ -166,5 +166,18 @@ public class Primitives {
                 return evargs;
             }
         });
+
+        env.bindGlobal(new Symbol("macro"), new Special() {
+            @Override
+            public SExpression apply(SExpression args, Environment env) {
+                if (length(args) < 1)
+                    throw new EvaluationError("MACRO needs at least one arg");
+                SExpression params = car(args);
+                if (!isListOf(params, Symbol.class))
+                    throw new EvaluationError("MACRO params should be a list of symbols");
+                SExpression body = cdr(args);
+                return new Macro(params, body, env);
+            }
+        });
     }
 }
