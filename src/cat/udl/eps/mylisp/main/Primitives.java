@@ -159,5 +159,12 @@ public class Primitives {
                 return car(evargs).apply(car(cdr(evargs)), env);
             }
         });
+
+        env.bindGlobal(new Symbol("list"), new Function() {
+            @Override
+            public SExpression apply(SExpression evargs, Environment env) {
+                return evargs;
+            }
+        });
     }
 }

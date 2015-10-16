@@ -368,4 +368,12 @@ public class EvaluatorTest {
     @Test public void apply_ok() {
         assertEvalTo("(apply add '(1 2 3 4))", "10");
     }
+
+    @Test public void list_no_arg() {
+        assertEvalTo("(list)", "nil");
+    }
+
+    @Test public void list_some_args() {
+        assertEvalTo("(list 1 (add 2 3) '(1 2))", "(1 5 (1 2))");
+    }
 }
