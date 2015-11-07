@@ -8,10 +8,9 @@ import cat.udl.eps.butterp.reader.*;
 import java.io.BufferedInputStream;
 import java.util.Scanner;
 
-/**
- * Created by jmgimeno on 2/10/15.
- */
 public class Repl {
+
+    public static final String PROMPT = "butterp";
 
     public static Environment createInitialEnvironment() {
         Environment env = new NestedMap();
@@ -27,7 +26,8 @@ public class Repl {
         boolean first = true;
         int parenthesesBalance = 0;
         do {
-            System.out.print(first ? "mylisp> " : "mylisp# ");
+            String prompt = String.format("%s%s ", PROMPT, first? ">" : "#");
+            System.out.print(prompt);
             line = scanner.nextLine();
             builder.append(String.format("%s%n", line));
             first = false;
