@@ -10,6 +10,11 @@
     (lambda (l)
         (car (cdr l))))
 
+(define cddr
+    (lambda (l)
+        (cdr (cdr l))))
+
+
 (define caddr
     (lambda (l)
         (car (cdr (cdr l)))))
@@ -19,12 +24,20 @@
         (if b nil t)))
 
 (define and
-    (macro (b1 b2)
-        (list 'if b1 b2 nil)))
+    (macro (expr)
+        (if (eq expr nil)
+            t
+            (list 'if (car expr)
+                      (cons 'and (cdr expr))
+                      nil))))
 
 (define or
-    (macro (b1 b2)
-        (list 'if b1 t b2)))
+    (macro (expr)
+        (if (eq expr nil)
+            nil
+            (list 'if (car expr)
+                      t
+                      (cons 'or (cdr expr))))))
 
 (define mapper
     (lambda (m)
@@ -69,4 +82,3 @@
                   (append (cdr l1) l2)))))
 
 (define mappend (mapper append))
-
