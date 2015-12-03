@@ -381,7 +381,27 @@ public class PrimitivesTest {
         assertEvalTo("(list 1 (add 2 3) '(1 2))", "(1 5 (1 2))");
     }
 
+    @Test(expected = EvaluationError.class)
+    public void macro_too_few_args() {
+        assertEvalFails("(macro)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void macro_no_list_in_arglist() {
+        assertEvalFails("(macro a 42)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void macro_no_in_arglist() {
+        assertEvalFails("(macro () 42)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void macro_too_many_in_arglist() {
+        assertEvalFails("(macro (a b c) a)");
+    }
+
     @Test public void macro_ok() {
-        assertEvalTo("((macro (expr val) (list 'if expr val nil)) (eq 0 1) (cons))", "nil");
+        assertEvalTo("((macro (expr) (list 'if (car expr) (car (cdr expr)) nil)) (eq 0 1) (cons))", "nil");
     }
 }

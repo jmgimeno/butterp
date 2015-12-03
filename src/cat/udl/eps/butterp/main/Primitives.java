@@ -6,9 +6,6 @@ import cat.udl.eps.butterp.environment.Environment;
 
 import static cat.udl.eps.butterp.data.ListOps.*;
 
-/**
- * Created by jmgimeno on 13/10/15.
- */
 public class Primitives {
 
     public static void loadPrimitives(Environment env) {
@@ -171,10 +168,10 @@ public class Primitives {
             @Override
             public SExpression apply(SExpression args, Environment env) {
                 if (length(args) < 1)
-                    throw new EvaluationError("MACRO needs at least one arg");
+                    throw new EvaluationError("MACRO needs at least one arg.");
                 SExpression params = car(args);
-                if (!isListOf(params, Symbol.class))
-                    throw new EvaluationError("MACRO params should be a list of symbols");
+                if (!isListOf(params, Symbol.class) || length(params) != 1)
+                    throw new EvaluationError("MACRO params should be a list of one symbol.");
                 SExpression body = cdr(args);
                 return new Macro(params, body, env);
             }
