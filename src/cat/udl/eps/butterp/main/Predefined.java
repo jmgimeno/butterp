@@ -47,7 +47,7 @@ public class Predefined {
 
     private static Reader getReader(String name) throws FileNotFoundException {
         ClassLoader classLoader = Predefined.class.getClassLoader();
-        URL inputURL = classLoader.getResource(name);
-        return new FileReader(new File(inputURL.getPath()));
+        InputStream inputStream = classLoader.getResourceAsStream(name);
+        return new InputStreamReader(inputStream);
     }
 }

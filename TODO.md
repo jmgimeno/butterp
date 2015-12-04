@@ -2,6 +2,10 @@
 
 * define interfaces Evaluable and Applicable to "simplify" hierarchy?
 
+## Tests
+
+* Add tests for core.lisp functionality
+
 ## Functionality
 
 * ; as comment till the end-of-line
@@ -12,3 +16,4 @@
 * function with last argument for rest of parameters
 * macros with more than one arg
 * add strings as atoms
+* load files from filesystem
