@@ -1,3 +1,8 @@
+## Known bugs
+
+* Unable to exit from repl with `:exit` because colon is not valid in symbols
+* or & and do not return the last truish evaluated expression
+
 ## Design
 
 * define interfaces Evaluable and Applicable to "simplify" hierarchy?
