@@ -2,6 +2,18 @@
 
 A simple lisp implementation in Java.
 
+## Build & Run
+
+This project uses maven, so to build it you can do:
+
+    mvn package
+    
+This creates a jar file in the target directory. To run it, you do:
+
+    java -jar target/butter0-1.0-SNAPSHOT.jar
+    
+To exit the REPL type `:exit` at the prompt.
+
 ## List of Primitives
 
 ### Atoms

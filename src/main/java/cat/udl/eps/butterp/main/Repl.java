@@ -50,7 +50,7 @@ public class Repl {
         Environment environment = createInitialEnvironment();
         while (true) {
             String input = readInput();
-            if (":exit".equals(input)) break;
+            if (":exit\n".equals(input)) break;
             try {
                 Parser parser = new Parser(new StringLexer(input));
                 SExpression sexpr = parser.sexpr();
