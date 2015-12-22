@@ -5,6 +5,8 @@
 ## Design
 
 * define interfaces Evaluable and Applicable to "simplify" hierarchy?
+* define an interface EvaluationStrategy to evaluate (or not) the arguments
+before applying. It has to be linked to function or special.
 
 ## Tests
 
