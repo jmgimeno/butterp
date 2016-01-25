@@ -24,7 +24,7 @@ public class Lambda extends Function {
         if (length(parameters) != length(evargs))
             throw new EvaluationError("Incorrect number of args in the call.");
         Environment evalEnv = makeEvalEnv(evargs);
-        return evalBody(evalEnv);
+        return body.eval(evalEnv);
     }
 
     private Environment makeEvalEnv(SExpression evargs) {
@@ -36,15 +36,5 @@ public class Lambda extends Function {
             evargs = cdr(evargs);
         }
         return evalEnv;
-    }
-
-    private SExpression evalBody(Environment env) {
-        SExpression body = this.body;
-        SExpression last = Symbol.NIL;
-        while (body != Symbol.NIL) {
-            last = car(body).eval(env);
-            body = cdr(body);
-        }
-        return last;
     }
 }

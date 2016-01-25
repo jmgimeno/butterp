@@ -168,11 +168,6 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void lambda_constantly_one_more_expr_in_body() {
-        assertEvalTo("((lambda () 0 1))", "1");
-    }
-
-    @Test
     public void lambda_snoc() {
         assertEvalTo("((lambda (D A) (cons A D)) nil 1)", "(1)");
     }

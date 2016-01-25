@@ -19,7 +19,7 @@ public class Primitives {
                     throw new EvaluationError("DEFINE should have two arguments");
                 SExpression symbol = nth(args, 0);
                 if (!(symbol instanceof Symbol))
-                    throw new EvaluationError("DEFINE's first argument shoul be a symbol");
+                    throw new EvaluationError("DEFINE's first argument should be a symbol");
                 SExpression value = nth(args, 1).eval(env);
                 env.bindGlobal((Symbol) symbol, value);
                 return Symbol.NIL;
@@ -77,12 +77,12 @@ public class Primitives {
         env.bindGlobal(new Symbol("lambda"), new Special() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
-                if (length(args) < 1)
-                    throw new EvaluationError("LAMBDA needs at least one arg");
-                SExpression params = car(args);
+                if (length(args) != 2)
+                    throw new EvaluationError("LAMBDA needs two args");
+                SExpression params = nth(args, 0);
                 if (!isListOf(params, Symbol.class))
                     throw new EvaluationError("LAMBDA params should be a list of symbols");
-                SExpression body = cdr(args);
+                SExpression body   = nth(args, 1);
                 return new Lambda(params, body, env);
             }
         });
@@ -167,12 +167,12 @@ public class Primitives {
         env.bindGlobal(new Symbol("macro"), new Special() {
             @Override
             public SExpression apply(SExpression args, Environment env) {
-                if (length(args) < 1)
-                    throw new EvaluationError("MACRO needs at least one arg.");
-                SExpression params = car(args);
+                if (length(args) != 2)
+                    throw new EvaluationError("MACRO needs two args.");
+                SExpression params = nth(args, 0);
                 if (!isListOf(params, Symbol.class) || length(params) != 1)
                     throw new EvaluationError("MACRO params should be a list of one symbol.");
-                SExpression body = cdr(args);
+                SExpression body = nth(args, 1);
                 return new Macro(params, body, env);
             }
         });
