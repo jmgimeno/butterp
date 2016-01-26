@@ -58,8 +58,4 @@ public class ListOps {
         }
     }
 
-    public static SExpression mapEval(SExpression args, Environment env) {
-        if (args == Symbol.NIL) return Symbol.NIL;
-        else return cons(car(args).eval(env), mapEval(cdr(args), env));
-    }
 }

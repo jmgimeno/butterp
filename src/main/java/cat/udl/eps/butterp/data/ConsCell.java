@@ -2,7 +2,9 @@ package cat.udl.eps.butterp.data;
 
 import cat.udl.eps.butterp.environment.Environment;
 
-import static cat.udl.eps.butterp.data.ListOps.mapEval;
+import static cat.udl.eps.butterp.data.ListOps.car;
+import static cat.udl.eps.butterp.data.ListOps.cdr;
+import static cat.udl.eps.butterp.data.ListOps.cons;
 
 /**
  * Created by jmgimeno on 2/10/15.
@@ -23,8 +25,13 @@ public class ConsCell implements SExpression {
         if (evfn instanceof Special) {
             return evfn.apply(cdr, env);
         } else {
-            return evfn.apply(mapEval(cdr, env), env);
+            return evfn.apply(evalArgs(cdr, env), env);
         }
+    }
+
+    private static SExpression evalArgs(SExpression args, Environment env) {
+        if (args == Symbol.NIL) return Symbol.NIL;
+        else return cons(car(args).eval(env), evalArgs(cdr(args), env));
     }
 
     @Override
