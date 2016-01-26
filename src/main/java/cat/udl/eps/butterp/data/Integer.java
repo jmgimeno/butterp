@@ -19,11 +19,6 @@ public class Integer implements SExpression {
     }
 
     @Override
-    public SExpression apply(SExpression args, Environment env) {
-        throw new EvaluationError("Integers are not applicable.");
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -8,6 +8,4 @@ import cat.udl.eps.butterp.environment.Environment;
 public interface SExpression {
 
     SExpression eval(Environment env);
-
-    SExpression apply(SExpression args, Environment env);
 }

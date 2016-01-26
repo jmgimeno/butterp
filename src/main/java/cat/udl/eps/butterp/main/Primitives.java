@@ -153,7 +153,12 @@ public class Primitives {
                 if (length(evargs) != 2) {
                     throw new EvaluationError("APPLY should get two arguments");
                 }
-                return car(evargs).apply(car(cdr(evargs)), env);
+                SExpression arg1 = car(evargs);
+                if (! (arg1 instanceof Function)) {
+                    throw new EvaluationError("First arg of APPLY should be a function");
+                }
+                Function function = (Function) arg1;
+                return function.apply(car(cdr(evargs)), env);
             }
         });
 

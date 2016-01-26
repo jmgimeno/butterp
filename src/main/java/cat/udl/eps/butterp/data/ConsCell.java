@@ -21,22 +21,21 @@ public class ConsCell implements SExpression {
 
     @Override
     public SExpression eval(Environment env) {
-        SExpression evfn = car.eval(env);
-        if (evfn instanceof Special) {
-            return evfn.apply(cdr, env);
+        SExpression evalCar = car.eval(env);
+        if (evalCar instanceof Special) {
+            Special special = (Special) evalCar;
+            return special.apply(cdr, env);
+        } else if (evalCar instanceof Function) {
+            Function function = (Function) evalCar;
+            return function.apply(evalArgs(cdr, env), env);
         } else {
-            return evfn.apply(evalArgs(cdr, env), env);
+            throw new EvaluationError(String.format("Cannot apply %s.", evalCar));
         }
     }
 
     private static SExpression evalArgs(SExpression args, Environment env) {
         if (args == Symbol.NIL) return Symbol.NIL;
         else return cons(car(args).eval(env), evalArgs(cdr(args), env));
-    }
-
-    @Override
-    public SExpression apply(SExpression args, Environment env) {
-        throw new EvaluationError("Lists are not applicable.");
     }
 
     @Override

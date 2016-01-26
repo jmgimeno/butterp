@@ -12,6 +12,8 @@ public abstract class Function implements SExpression {
         return this;
     }
 
+    public abstract SExpression apply(SExpression evargs, Environment env);
+
     @Override
     public String toString() {
         return String.format("<function-%x>", hashCode());
