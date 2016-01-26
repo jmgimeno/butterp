@@ -14,7 +14,7 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("define"), new Special() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
+            public SExpression applySpecial(SExpression args, Environment env) {
                 if (length(args) != 2)
                     throw new EvaluationError("DEFINE should have two arguments");
                 SExpression symbol = nth(args, 0);
@@ -28,7 +28,7 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("quote"), new Special() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
+            public SExpression applySpecial(SExpression args, Environment env) {
                 if (length(args) != 1)
                     throw new EvaluationError("QUOTE needs an argument.");
                 return car(args);
@@ -76,7 +76,7 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("lambda"), new Special() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
+            public SExpression applySpecial(SExpression args, Environment env) {
                 if (length(args) != 2)
                     throw new EvaluationError("LAMBDA needs two args");
                 SExpression params = nth(args, 0);
@@ -100,7 +100,7 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("if"), new Special() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
+            public SExpression applySpecial(SExpression args, Environment env) {
                 if (length(args) != 3)
                     throw new EvaluationError("IF needs condition, then and else parts.");
                 SExpression test = nth(args, 0);
@@ -171,7 +171,7 @@ public class Primitives {
 
         env.bindGlobal(new Symbol("macro"), new Special() {
             @Override
-            public SExpression apply(SExpression args, Environment env) {
+            public SExpression applySpecial(SExpression args, Environment env) {
                 if (length(args) != 2)
                     throw new EvaluationError("MACRO needs two args.");
                 SExpression params = nth(args, 0);

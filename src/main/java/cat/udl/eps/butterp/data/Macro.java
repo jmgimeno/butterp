@@ -11,7 +11,7 @@ public class Macro extends Special {
     }
 
     @Override
-    public SExpression apply(SExpression args, Environment env) {
+    public SExpression applySpecial(SExpression args, Environment env) {
         SExpression expr = ListOps.list(args);
         return expansionFn.apply(expr, env).eval(env);
     }
