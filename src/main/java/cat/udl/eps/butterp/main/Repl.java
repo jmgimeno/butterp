@@ -46,8 +46,19 @@ public class Repl {
         return balance;
     }
 
+    private static void showBanner() {
+        System.out.println("Welcome to butterp, your mini-lisp implementation.");
+        System.out.println();
+        System.out.println("Type the expression to evaluate:");
+        System.out.println("\t* interpret waits for parentheses to balance");
+        System.out.println("\t* or for an empty line");
+        System.out.println("\t* type :exit to exit");
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         Environment environment = createInitialEnvironment();
+        showBanner();
         while (true) {
             String input = readInput();
             if (":exit\n".equals(input)) break;
