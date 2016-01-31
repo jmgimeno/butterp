@@ -12,11 +12,9 @@ import spark.Request;
 import spark.Response;
 import spark.Session;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.staticFileLocation;
-
 import com.google.gson.Gson;
+
+import static spark.Spark.*;
 
 public class WebRepl {
 
@@ -84,7 +82,26 @@ public class WebRepl {
         }
     }
 
+    private static Repl getOrCreateRepl(Session session) {
+        Repl repl = session.attribute("repl");
+        if (repl == null) {
+            repl = new Repl();
+            session.attribute("repl", repl);
+        }
+        return repl;
+    }
+
+    public static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
+
+
     public static void main(String[] args) {
+        port(getHerokuAssignedPort());
         Gson gson = new Gson();
         staticFileLocation("/public");
         post("/eval", (req, res) -> {
@@ -93,14 +110,5 @@ public class WebRepl {
             EvaluationDTO result = repl.eval(expression);
             return result;
         }, gson::toJson);
-    }
-
-    private static Repl getOrCreateRepl(Session session) {
-        Repl repl = session.attribute("repl");
-        if (repl == null) {
-            repl = new Repl();
-            session.attribute("repl", repl);
-        }
-        return repl;
     }
 }
