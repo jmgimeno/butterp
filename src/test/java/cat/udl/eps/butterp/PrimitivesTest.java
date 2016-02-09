@@ -154,7 +154,7 @@ public class PrimitivesTest {
 
     @Test(expected = EvaluationError.class)
     public void lambda_no_params_list() {
-        assertEvalFails("(lambda 1)");
+        assertEvalFails("(lambda A 1)");
     }
 
     @Test(expected = EvaluationError.class)
