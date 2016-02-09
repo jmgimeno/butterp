@@ -45,15 +45,14 @@ public class ConsCell implements SExpression {
 
         ConsCell consCell = (ConsCell) o;
 
-        if (car != null ? !car.equals(consCell.car) : consCell.car != null) return false;
-        return !(cdr != null ? !cdr.equals(consCell.cdr) : consCell.cdr != null);
+        return car.equals(consCell.car) && cdr.equals(consCell.cdr);
 
     }
 
     @Override
     public int hashCode() {
-        int result = car != null ? car.hashCode() : 0;
-        result = 31 * result + (cdr != null ? cdr.hashCode() : 0);
+        int result = car.hashCode();
+        result = 31 * result + cdr.hashCode();
         return result;
     }
 
