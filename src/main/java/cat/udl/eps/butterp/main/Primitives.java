@@ -82,6 +82,8 @@ public class Primitives {
                 SExpression params = nth(args, 0);
                 if (!isListOf(params, Symbol.class))
                     throw new EvaluationError("LAMBDA params should be a list of symbols");
+                if (!allDifferent(params))
+                    throw new EvaluationError("LAMBDA params should be all different");
                 SExpression body   = nth(args, 1);
                 return new Lambda(params, body, env);
             }
@@ -182,4 +184,5 @@ public class Primitives {
             }
         });
     }
+
 }

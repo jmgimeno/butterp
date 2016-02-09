@@ -1,25 +1,22 @@
 package cat.udl.eps.butterp.data;
 
-import cat.udl.eps.butterp.environment.Environment;
-
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-/**
- * Created by jmgimeno on 4/10/15.
- */
 public class ListOps {
 
     public static SExpression cons(SExpression car, SExpression cdr) {
         return new ConsCell(car, cdr);
     }
 
-    public static SExpression car(SExpression sexpr) {
-        return ((ConsCell) sexpr).car;
+    public static SExpression car(SExpression cell) {
+        return ((ConsCell) cell).car;
     }
 
-    public static SExpression cdr(SExpression sexpr) {
-        return ((ConsCell) sexpr).cdr;
+    public static SExpression cdr(SExpression cell) {
+        return ((ConsCell) cell).cdr;
     }
 
     public static SExpression list(SExpression... elems) {
@@ -34,23 +31,22 @@ public class ListOps {
         return list;
     }
 
-    public static int length(SExpression sexpr) {
-        if (sexpr == Symbol.NIL) return 0;
-        return 1 + length(cdr(sexpr));
+    public static int length(SExpression list) {
+        if (list == Symbol.NIL) return 0;
+        return 1 + length(cdr(list));
     }
 
-    public static SExpression nth(SExpression sexpr, int n) {
-        if (n == 0) return car(sexpr);
-        else return nth(cdr(sexpr), n-1);
+    public static SExpression nth(SExpression list, int n) {
+        if (n == 0) return car(list);
+        else return nth(cdr(list), n-1);
     }
 
-    public static boolean isListOf(SExpression params, Class<?> klass) {
+    public static boolean isListOf(SExpression sexpr, Class<?> klass) {
         try {
-            SExpression current = params;
-            while (current != Symbol.NIL) {
-                if (!klass.isInstance(car(current)))
+            while (sexpr != Symbol.NIL) {
+                if (!klass.isInstance(car(sexpr)))
                     return false;
-                current = cdr(current);
+                sexpr = cdr(sexpr);
             }
             return true;
         } catch (ClassCastException ex) {
@@ -58,4 +54,13 @@ public class ListOps {
         }
     }
 
+    public static boolean allDifferent(SExpression list) {
+        Set<SExpression> seen = new HashSet<>();
+        while (list != Symbol.NIL) {
+            if (!seen.add(car(list)))
+                return false;
+            list = cdr(list);
+        }
+        return true;
+    }
 }

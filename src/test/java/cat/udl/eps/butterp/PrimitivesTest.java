@@ -159,7 +159,12 @@ public class PrimitivesTest {
 
     @Test(expected = EvaluationError.class)
     public void lambda_params_list_no_symbol() {
-        assertEvalFails("(lambda (A 1 B))");
+        assertEvalFails("(lambda (A 1 B) nil)");
+    }
+
+    @Test(expected = EvaluationError.class)
+    public void lambda_params_list_with_repeated_symbol() {
+        assertEvalFails("(lambda (A A B) nil)");
     }
 
     @Test
