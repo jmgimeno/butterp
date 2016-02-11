@@ -23,6 +23,7 @@ public class WebRepl {
 
         public Repl() {
             Primitives.loadPrimitives(environment);
+            Predefined.loadPredefined(environment);
         }
 
         public EvaluationDTO eval(String expression) {
