@@ -243,6 +243,12 @@ public class PrimitivesTest {
     }
 
     @Test
+    public void if_quoted_nil_is_nil() {
+        assertEvalTo("(if 'nil 1 2)", "2");
+        assertEvalTo("(if nil 1 2)", "2");
+    }
+
+    @Test
     public void if_then() {
         assertEvalTo("(if (eq 1 1) (quote 1) (quote 2))", "1");
     }

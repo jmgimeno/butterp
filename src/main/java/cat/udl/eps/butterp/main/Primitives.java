@@ -108,7 +108,7 @@ public class Primitives {
                 SExpression test = nth(args, 0);
                 SExpression then = nth(args, 1);
                 SExpression e1se = nth(args, 2);
-                return test.eval(env) != Symbol.NIL ? then.eval(env) : e1se.eval(env);
+                return Symbol.NIL.equals(test.eval(env)) ? e1se.eval(env) : then.eval(env);
             }
         });
 
