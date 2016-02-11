@@ -2,6 +2,8 @@
 
 A simple lisp implementation in Java.
 
+Dedicated to the memory of Josep Mª Ribó.
+
 ## Build & Run
 
 This project uses maven, so to build it you can do:
