@@ -16,6 +16,10 @@ This creates a jar file in the target directory. To run it, you do:
     
 To exit the REPL type `:exit` at the prompt.
 
+## WebRepl
+
+An instance of the simple WebRepl application is deployed at https://butterp.herokuapp.com
+
 ## List of Primitives
 
 ### Atoms
