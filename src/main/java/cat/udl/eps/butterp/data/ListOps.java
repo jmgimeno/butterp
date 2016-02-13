@@ -1,9 +1,6 @@
 package cat.udl.eps.butterp.data;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ListOps {
 
@@ -32,21 +29,26 @@ public class ListOps {
     }
 
     public static int length(SExpression list) {
-        if (list == Symbol.NIL) return 0;
-        return 1 + length(cdr(list));
+        int length = 0;
+        for (SExpression elem : iter(list)) {
+            length += 1;
+        }
+        return length;
     }
 
     public static SExpression nth(SExpression list, int n) {
-        if (n == 0) return car(list);
-        else return nth(cdr(list), n-1);
+        for (SExpression elem: iter(list)) {
+            if (n == 0) return elem;
+            n -= 1;
+        }
+        throw new IllegalArgumentException(); // Should never happen
     }
 
     public static boolean isListOf(SExpression sexpr, Class<?> klass) {
         try {
-            while (sexpr != Symbol.NIL) {
-                if (!klass.isInstance(car(sexpr)))
+            for (SExpression elem: iter(sexpr)) {
+                if (!klass.isInstance(elem))
                     return false;
-                sexpr = cdr(sexpr);
             }
             return true;
         } catch (ClassCastException ex) {
@@ -56,11 +58,57 @@ public class ListOps {
 
     public static boolean allDifferent(SExpression list) {
         Set<SExpression> seen = new HashSet<>();
-        while (list != Symbol.NIL) {
-            if (!seen.add(car(list)))
+        for (SExpression elem: iter(list)) {
+            if (!seen.add(elem))
                 return false;
-            list = cdr(list);
         }
         return true;
+    }
+
+    private static Iterator<SExpression> NIL_ITERATOR = new Iterator<SExpression> () {
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public SExpression next() {
+            throw new NoSuchElementException();
+        }
+    };
+
+    private static class ConsCellIterator implements Iterator<SExpression> {
+        private SExpression current;
+
+        public ConsCellIterator(SExpression current) {
+            this.current = current;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != Symbol.NIL;
+        }
+
+        @Override
+        public SExpression next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            SExpression result = car(current);
+            current = cdr(current);
+            return result;
+        }
+    }
+
+    public static Iterable<SExpression> iter(SExpression list) {
+        return new Iterable<SExpression>() {
+            @Override
+            public Iterator<SExpression> iterator() {
+                if (list == Symbol.NIL)
+                    return NIL_ITERATOR;
+                else
+                    return new ConsCellIterator(list);
+            }
+        };
     }
 }
