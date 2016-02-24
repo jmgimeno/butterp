@@ -78,36 +78,36 @@ public class ListOps {
         }
     };
 
-    private static class ConsCellIterator implements Iterator<SExpression> {
-        private SExpression current;
 
-        public ConsCellIterator(SExpression current) {
-            this.current = current;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return current != Symbol.NIL;
-        }
-
-        @Override
-        public SExpression next() {
-            if (!hasNext())
-                throw new NoSuchElementException();
-            SExpression result = car(current);
-            current = cdr(current);
-            return result;
-        }
-    }
 
     public static Iterable<SExpression> iter(SExpression list) {
         return new Iterable<SExpression>() {
+
+            class ListIterator implements Iterator<SExpression> {
+                private SExpression current;
+
+                public ListIterator() {
+                    this.current = list;
+                }
+
+                @Override
+                public boolean hasNext() {
+                    return current != Symbol.NIL;
+                }
+
+                @Override
+                public SExpression next() {
+                    if (!hasNext())
+                        throw new NoSuchElementException();
+                    SExpression result = car(current);
+                    current = cdr(current);
+                    return result;
+                }
+            }
+
             @Override
             public Iterator<SExpression> iterator() {
-                if (list == Symbol.NIL)
-                    return NIL_ITERATOR;
-                else
-                    return new ConsCellIterator(list);
+                return new ListIterator();
             }
         };
     }
