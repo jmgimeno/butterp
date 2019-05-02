@@ -1,1 +1,2 @@
-web: java -jar target/butterp-1.0-SNAPSHOT-jar-with-dependencies.jar
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* cat.udl.eps.butterp.main.WebRepl
+
